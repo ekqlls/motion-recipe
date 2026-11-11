@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motion Recipe</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #101116;
+      color: #f2f2f5;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      padding: 32px 6%;
+      border-bottom: 1px solid #30313b;
+    }
+    h1 { margin: 0 0 8px; }
+    p { color: #a4a5b2; }
+    main { max-width: 1050px; margin: auto; padding: 32px 20px; }
+    input {
+      width: 100%; padding: 16px;
+      background: #20212b; color: white;
+      border: 1px solid #414252; border-radius: 10px;
+      font-size: 16px;
+    }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+    button {
+      background: #30313d; color: white;
+      border: 0; padding: 10px 14px;
+      border-radius: 7px; cursor: pointer;
+    }
+    button:hover, button.active { background: #6558d7; }
+    .card {
+      background: #1c1d26; border: 1px solid #343540;
+      border-radius: 12px; padding: 22px; margin: 14px 0;
+    }
+    .tag { color: #b4a8ff; font-size: 13px; }
+    pre {
+      overflow-x: auto; padding: 18px;
+      background: #111218; border-radius: 8px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Motion Recipe</h1>
+    <p>After Effects Expression Library</p>
+  </header>
+  <main>
+    <input id="search" placeholder="익스프레션 검색..." oninput="render()">
+    <div class="filters" id="filters"></div>
+    <div id="library"></div>
+  </main>
+  <script>
+    const recipes = [
+      {
+        name: "딱딱하게 까딱까딱",
+        category: "Rotation",
+        description: "스탑모션처럼 각도가 전환되는 움직임",
+        code: `freq = 2;
+amp = 5;
+step = Math.sin(time * freq * Math.PI * 2) >= 0 ? 1 : -1;
+value + step * amp;`
+      },
+      {
+        name: "위아래로 둥둥",
+        category: "Position",
+        description: "사인파를 이용한 반복적인 상하 이동",
+        code: `freq = 0.5;
+amp = 20;
+value + [0, Math.sin(time * freq * 2 * Math.PI) * amp];`
+      },
+      {
+        name: "무한 반복",
+        category: "Loop",
+        description: "기존 키프레임 애니메이션을 반복",
+        code: `loopOut("cycle");`
+      }
+    ];
+
+    let category = "All";
+
+    function setCategory(value) {
+      category = value;
+      render();
+    }
+
+    function render() {
+      const query = document.getElementById("search").value.toLowerCase();
+      const filters = document.getElementById("filters");
+      const library = document.getElementById("library");
+
+      filters.replaceChildren();
+      ["All", "Position", "Rotation", "Loop"].forEach(c => {
+        const btn = document.createElement("button");
+        btn.textContent = c;
+        btn.className = category === c ? "active" : "";
+        btn.onclick = () => setCategory(c);
+        filters.appendChild(btn);
+      });
+
+      library.replaceChildren();
+      recipes.filter(r =>
+        (category === "All" || r.category === category) &&
+        (r.name + r.description + r.category).toLowerCase().includes(query)
+      ).forEach(r => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const tag = document.createElement("div");
+        tag.className = "tag";
+        tag.textContent = r.category;
+
+        const title = document.createElement("h2");
+        title.textContent = r.name;
+
+        const desc = document.createElement("p");
+        desc.textContent = r.description;
+
+        const code = document.createElement("pre");
+        code.textContent = r.code;
+
+        const copy = document.createElement("button");
+        copy.textContent = "코드 복사";
+        copy.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(r.code);
+            copy.textContent = "복사 완료!";
+          } catch {
+            copy.textContent = "복사 실패";
+          }
+        };
+
+        card.append(tag, title, desc, code, copy);
+        library.appendChild(card);
+      });
+    }
+    render();
+  </script>
+</body>
+</html>
