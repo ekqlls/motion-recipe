@@ -3,102 +3,246 @@
     "name": "딱딱하게 까딱까딱",
     "category": "Rotation",
     "description": "스탑모션·컷아웃처럼 기준 각도에서 좌우로 즉시 전환합니다. freq는 초당 왕복 횟수, amp는 회전 각도입니다. 앵커 포인트를 관절이나 회전축에 두세요.",
-    "code": "freq = 2;\namp = 5;\n\nstep = Math.sin(time * freq * Math.PI * 2) >= 0 ? 1 : -1;\nvalue + step * amp;"
+    "code": "freq = 2;\namp = 5;\n\nstep = Math.sin(time * freq * Math.PI * 2) >= 0 ? 1 : -1;\nvalue + step * amp;",
+    "guide": {
+      "property": "2D 레이어의 Rotation",
+      "preparation": "회전시킬 레이어와 회전축을 정하세요.",
+      "steps": [
+        "앵커 포인트를 관절이나 회전축에 놓으세요. Rotation의 기본값이 좌우 전환의 중심 각도예요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "미리 보기에서 기본 각도를 중심으로 좌우 두 각도가 즉시 전환되면 맞아요."
+    }
   },
   {
     "name": "위아래로 둥둥",
     "category": "Position",
     "description": "2D Position에서 사인파를 이용한 반복적인 상하 이동입니다. 기존 사이트 샘플로, 문서의 Floating보다 느린 초당 0.5회 설정입니다.",
-    "code": "freq = 0.5;\namp = 20;\nvalue + [0, Math.sin(time * freq * 2 * Math.PI) * amp];"
+    "code": "freq = 0.5;\namp = 20;\nvalue + [0, Math.sin(time * freq * 2 * Math.PI) * amp];",
+    "guide": {
+      "property": "2D 레이어의 Position",
+      "preparation": "위아래로 띄울 2D 레이어를 준비하세요. Position의 차원 분리는 꺼 두세요.",
+      "steps": [
+        "Position을 원하는 이동 중심에 두세요. 코드의 amp는 이동 폭, freq는 초당 반복 횟수예요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "기본 설정에서 약 2초마다 상하 움직임이 한 번 반복돼요."
+    }
   },
   {
     "name": "무한 반복",
     "category": "Loop",
     "description": "기존 키프레임 애니메이션을 반복",
     "code": "loopOut(\"cycle\");",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Loop"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Loop",
+    "guide": {
+      "property": "반복할 속성의 스톱워치 (Position·Scale·Rotation·Opacity 등)",
+      "preparation": "반복할 구간을 만들 수 있도록 같은 속성에 키프레임을 두 개 이상 찍으세요.",
+      "steps": [
+        "마지막 키프레임 이후에도 레이어 막대가 이어지게 하세요. Scale로 연습하려면 100% → 120% → 100%를 찍어 보세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "마지막 키프레임 뒤에 처음부터 끝까지의 동작이 다시 재생되면 맞아요."
+    }
   },
   {
     "name": "좌우로 부드럽고 반복적인 흔들림 (Swing)",
     "category": "Rotation",
     "description": "진자처럼 좌우로 부드럽게 회전합니다. freq는 초당 반복 횟수, amp는 좌우 최대 회전 각도입니다.",
-    "code": "freq = 1;\namp = 8;\n\nvalue + Math.sin(time * freq * Math.PI * 2) * amp;"
+    "code": "freq = 1;\namp = 8;\n\nvalue + Math.sin(time * freq * Math.PI * 2) * amp;",
+    "guide": {
+      "property": "2D 레이어의 Rotation",
+      "preparation": "진자처럼 흔들릴 레이어를 준비하세요.",
+      "steps": [
+        "앵커 포인트를 매달린 지점에 놓고 Rotation의 기본값으로 중립 각도를 정하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "회전이 양 끝 사이를 부드럽게 왕복하면 맞아요."
+    }
   },
   {
     "name": "위아래로 둥둥 움직이기 (Floating)",
     "category": "Position",
     "description": "2D Position에서 위아래로 부드럽게 부유합니다. 문서의 Floating은 초당 1회 설정이며, amp로 이동 거리(px)를 조절합니다.",
-    "code": "freq = 1;\namp = 20;\n\ny = Math.sin(time * freq * Math.PI * 2) * amp;\n[value[0], value[1] + y];"
+    "code": "freq = 1;\namp = 20;\n\ny = Math.sin(time * freq * Math.PI * 2) * amp;\n[value[0], value[1] + y];",
+    "guide": {
+      "property": "2D 레이어의 Position",
+      "preparation": "떠오를 레이어를 준비하고 Position의 차원 분리를 꺼 두세요.",
+      "steps": [
+        "기본 Position을 이동 중심에 두세요. 느리게 떠다니게 하려면 freq를 낮추세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "기본 설정에서는 가로 위치가 유지되고 약 1초마다 상하 이동이 반복돼요."
+    }
   },
   {
     "name": "불규칙하게 흔들기 (Wiggle)",
     "category": "Position",
     "description": "위치를 불규칙하게 흔들어 떨림이나 진동을 만듭니다. 첫 번째 인수는 초당 횟수, 두 번째는 흔들림 범위(px)입니다.",
     "code": "wiggle(2, 20);",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Wiggle%20randomly"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Wiggle%20randomly",
+    "guide": {
+      "property": "레이어의 Position",
+      "preparation": "흔들릴 레이어를 준비하세요. 키프레임 없이도 시험할 수 있어요.",
+      "steps": [
+        "기본 Position을 정하세요. 테스트할 때 두 번째 숫자를 낮추면 흔들림의 폭을 줄일 수 있어요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "레이어가 일정한 경로를 왕복하는 대신 기본 위치 주변에서 불규칙하게 떨려요."
+    }
   },
   {
     "name": "두근두근 크기 변화 (Heartbeat)",
     "category": "Scale",
     "description": "2D Scale에서 심장박동처럼 크기가 반복해서 변합니다. freq는 초당 반복 횟수, amp는 크기 변화량입니다.",
-    "code": "freq = 1.5;\namp = 12;\n\npulse = Math.sin(time * freq * Math.PI * 2);\nvalue + [pulse * amp, pulse * amp];"
+    "code": "freq = 1.5;\namp = 12;\n\npulse = Math.sin(time * freq * Math.PI * 2);\nvalue + [pulse * amp, pulse * amp];",
+    "guide": {
+      "property": "2D 레이어의 Scale",
+      "preparation": "크기가 변할 2D 레이어를 준비하세요.",
+      "steps": [
+        "가운데를 중심으로 커지게 하려면 앵커를 레이어 중앙에 두세요. 원하는 기본 크기도 정하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "가로와 세로가 함께 커졌다 작아지고, 기본 Scale이 변화의 중심이 돼요."
+    }
   },
   {
     "name": "키프레임 뒤에 탄성 추가 (Bounce)",
     "category": "Position · Scale · Rotation",
     "description": "움직임을 만드는 키프레임이 있는 Position, Scale, Rotation 중 원하는 속성에 적용합니다. amp는 튕기는 강도, freq는 진동 횟수, decay는 감쇠 속도입니다.",
     "code": "amp = 0.05;\nfreq = 4.0;\ndecay = 3.0;\n\nn = 0;\n\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n\n  if (key(n).time > time) {\n    n--;\n  }\n}\n\nif (n == 0) {\n  t = 0;\n} else {\n  t = time - key(n).time;\n}\n\nif (n > 0 && t < 1) {\n  v = velocityAtTime(key(n).time - thisComp.frameDuration / 10);\n  value + v * amp * Math.sin(freq * t * Math.PI * 2) / Math.exp(decay * t);\n} else {\n  value;\n}",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Overshoot"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Overshoot",
+    "guide": {
+      "property": "키프레임이 있는 Position·Scale·Rotation 중 하나",
+      "preparation": "속도 변화가 있는 키프레임을 두 개 이상 만들어요. 처음엔 2D Position으로 시험하기 쉬워요.",
+      "steps": [
+        "예를 들어 좌우로 이동하는 키프레임을 만들고, 끝 키프레임 직전 속도가 0이 되지 않도록 Linear 보간으로 먼저 시험하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "도착점 근처에서 진행 방향으로 조금 더 갔다가 진동이 줄어들면 맞아요."
+    }
   },
   {
     "name": "깜빡깜빡",
     "category": "Opacity",
     "description": "Opacity가 0%에서 100% 사이를 초당 약 1.59회 부드럽게 왕복하는 깜빡임입니다.",
-    "code": "Math.sin(time * 10) * 50 + 50;"
+    "code": "Math.sin(time * 10) * 50 + 50;",
+    "guide": {
+      "property": "레이어의 Opacity",
+      "preparation": "부드럽게 밝아졌다 어두워질 레이어를 준비하세요.",
+      "steps": [
+        "이 코드는 기존 Opacity 대신 0~100% 값을 계산해요. 처음에는 단색 배경 위에서 시험하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "부드럽게 사라졌다 나타나는 동작이 약 0.63초마다 반복돼요."
+    }
   },
   {
     "name": "벌레 위글",
     "category": "Position",
     "description": "2D Position에 유기적인 좌우·상하 이동을 만듭니다. ampX와 ampY는 이동 거리, speedX와 speedY는 축별 반복 속도입니다.",
-    "code": "ampX = 20;\nampY = 15;\n\nspeedX = 0.5;\nspeedY = 0.7;\n\nseedRandom(index, true);\n\nphaseX = random(0, 2 * Math.PI);\nphaseY = random(0, 2 * Math.PI);\n\nx = value[0] + Math.sin(time * speedX * 2 * Math.PI + phaseX) * ampX;\ny = value[1] + Math.cos(time * speedY * 2 * Math.PI + phaseY) * ampY;\n\n[x, y];"
+    "code": "ampX = 20;\nampY = 15;\n\nspeedX = 0.5;\nspeedY = 0.7;\n\nseedRandom(index, true);\n\nphaseX = random(0, 2 * Math.PI);\nphaseY = random(0, 2 * Math.PI);\n\nx = value[0] + Math.sin(time * speedX * 2 * Math.PI + phaseX) * ampX;\ny = value[1] + Math.cos(time * speedY * 2 * Math.PI + phaseY) * ampY;\n\n[x, y];",
+    "guide": {
+      "property": "2D 레이어의 Position",
+      "preparation": "벌레처럼 움직일 2D 그래픽을 준비하세요.",
+      "steps": [
+        "Position을 이동 중심에 두고 ampX와 ampY로 가로·세로 범위를 정하세요. 여러 개가 필요하면 레이어를 복제하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "복제한 레이어들의 움직임이 같은 박자에 겹치지 않고 각자 다른 위상으로 시작해요."
+    }
   },
   {
     "name": "반동",
     "category": "Position · Scale · Rotation",
     "description": "움직임을 만드는 키프레임이 있는 Position, Scale, Rotation 중 원하는 속성에 적용합니다. 키프레임 직전 속도가 빠를수록 반동이 커지며, freq와 decay로 진동과 감쇠를 조절합니다.",
-    "code": "freq = 3;\ndecay = 5;\n\nn = 0;\n\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n\n  if (key(n).time > time) {\n    n--;\n  }\n}\n\nif (n > 0) {\n  t = time - key(n).time;\n  amp = velocityAtTime(key(n).time - 0.001);\n  w = freq * Math.PI * 2;\n\n  value + amp * (Math.sin(t * w) / Math.exp(decay * t) / w);\n} else {\n  value;\n}"
+    "code": "freq = 3;\ndecay = 5;\n\nn = 0;\n\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n\n  if (key(n).time > time) {\n    n--;\n  }\n}\n\nif (n > 0) {\n  t = time - key(n).time;\n  amp = velocityAtTime(key(n).time - 0.001);\n  w = freq * Math.PI * 2;\n\n  value + amp * (Math.sin(t * w) / Math.exp(decay * t) / w);\n} else {\n  value;\n}",
+    "guide": {
+      "property": "키프레임이 있는 Position·Scale·Rotation 중 하나",
+      "preparation": "움직임이 있는 속성에 키프레임을 두 개 이상 만들어요.",
+      "steps": [
+        "예를 들어 Rotation을 0°에서 45°로 이동시키고, 끝 직전 속도가 남도록 Linear 보간으로 먼저 시험하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "마지막 키프레임 직전 속도에 따라 반동이 나타나고, 시간이 지나면 잦아들어요."
+    }
   },
   {
     "name": "벌레 속도 변형 (Position)",
     "category": "Position",
     "description": "같은 2D 레이어에 적용하는 벌레 모션 세트입니다. 이 코드는 Position에 붙여넣고 Scale·Rotation 카드의 코드도 해당 속성에 각각 적용하세요. ampX·ampY는 이동 거리, speedX·speedY는 축별 반복 속도입니다.",
-    "code": "ampX = 200;\nampY = 150;\n\nspeedX = 0.2;\nspeedY = 0.3;\n\nseedRandom(index, true);\n\nphaseX = random(0, 2 * Math.PI);\nphaseY = random(0, 2 * Math.PI);\n\nx = value[0] + Math.sin(time * speedX * 2 * Math.PI + phaseX) * ampX;\ny = value[1] + Math.cos(time * speedY * 2 * Math.PI + phaseY) * ampY;\n\n[x, y];"
+    "code": "ampX = 200;\nampY = 150;\n\nspeedX = 0.2;\nspeedY = 0.3;\n\nseedRandom(index, true);\n\nphaseX = random(0, 2 * Math.PI);\nphaseY = random(0, 2 * Math.PI);\n\nx = value[0] + Math.sin(time * speedX * 2 * Math.PI + phaseX) * ampX;\ny = value[1] + Math.cos(time * speedY * 2 * Math.PI + phaseY) * ampY;\n\n[x, y];",
+    "guide": {
+      "property": "벌레 그래픽의 2D Position",
+      "preparation": "같은 레이어에 적용하는 Position·Scale·Rotation 세 카드 중 이동 경로를 만드는 코드예요.",
+      "steps": [
+        "Position의 차원 분리를 끄고 기본 위치를 정하세요. 방향과 크기도 따라 바뀌게 하려면 같은 레이어에 나머지 두 카드 코드를 적용하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "Position만 적용해도 레이어가 곡선 경로를 따라 움직여요."
+    }
   },
   {
     "name": "벌레 속도 변형 (Scale)",
     "category": "Scale",
     "description": "같은 2D 레이어의 Position 속도에 따라 X축은 늘리고 Y축은 줄입니다. 이 코드는 Scale에 붙여넣고 Position·Rotation 코드도 각각 적용하세요. maxStretch는 최대 늘어나는 비율, maxSpeed는 그 비율에 도달하는 속도입니다.",
-    "code": "maxStretch = 120;\nmaxSpeed = 300;\n\nv = transform.position.velocity;\nspeed = length(v);\n\nstretch = linear(speed, 0, maxSpeed, 100, maxStretch);\nstretch = clamp(stretch, 100, maxStretch);\nshrink = 10000 / stretch;\n\n[\n  value[0] * stretch / 100,\n  value[1] * shrink / 100\n];"
+    "code": "maxStretch = 120;\nmaxSpeed = 300;\n\nv = transform.position.velocity;\nspeed = length(v);\n\nstretch = linear(speed, 0, maxSpeed, 100, maxStretch);\nstretch = clamp(stretch, 100, maxStretch);\nshrink = 10000 / stretch;\n\n[\n  value[0] * stretch / 100,\n  value[1] * shrink / 100\n];",
+    "guide": {
+      "property": "벌레 그래픽의 2D Scale",
+      "preparation": "같은 레이어의 Position에 이동 코드나 이동 키프레임이 필요해요.",
+      "steps": [
+        "벌레 그래픽이 오른쪽을 향하도록 준비하세요. maxStretch와 maxSpeed로 최대 늘어남과 그에 도달하는 속도를 정해요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "빠르게 이동할 때 가로로 늘고 세로로 줄며, 느려질수록 원래 크기에 가까워져요."
+    }
   },
   {
     "name": "벌레 속도 변형 (Rotation)",
     "category": "Rotation",
     "description": "같은 2D 레이어가 이동 방향을 바라보게 합니다. 이 코드는 Rotation에 붙여넣고 Position·Scale 코드도 각각 적용하세요. 소스가 오른쪽을 향할 때 진행 방향과 일치합니다.",
-    "code": "v = transform.position.velocity;\n\nif (length(v) > 0.001) {\n  radiansToDegrees(Math.atan2(v[1], v[0]));\n} else {\n  value;\n}"
+    "code": "v = transform.position.velocity;\n\nif (length(v) > 0.001) {\n  radiansToDegrees(Math.atan2(v[1], v[0]));\n} else {\n  value;\n}",
+    "guide": {
+      "property": "벌레 그래픽의 2D Rotation",
+      "preparation": "같은 레이어의 Position에 이동 코드나 이동 키프레임을 먼저 적용하세요.",
+      "steps": [
+        "그래픽의 기본 방향을 오른쪽으로 맞추세요. 회전 중심은 앵커 포인트로 정해요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "레이어가 움직일 때 앞부분이 진행 방향을 바라보면 맞아요."
+    }
   },
   {
     "name": "컴포지션 중앙 고정",
     "category": "Position",
     "description": "컴포지션 크기가 달라져도 타이틀이나 로고가 화면 중앙에 놓여요. 부모가 없는 2D 레이어의 Position에 적용하세요.",
     "code": "[thisComp.width / 2, thisComp.height / 2];",
-    "sourceUrl": "https://aereference.com/expressions/get-center-scale-of-comp"
+    "sourceUrl": "https://aereference.com/expressions/get-center-scale-of-comp",
+    "guide": {
+      "property": "부모가 없는 2D 레이어의 Position",
+      "preparation": "컴프 중앙에 둘 타이틀이나 로고를 준비하세요.",
+      "steps": [
+        "화면 가운데에 둘 지점으로 앵커 포인트를 옮기세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "컴프 해상도를 바꿔도 앵커가 새 화면의 중앙에 놓여요."
+    }
   },
   {
     "name": "두 레이어 사이에 배치",
     "category": "Position",
     "description": "두 피사체가 움직일 때 라벨이나 그래픽이 두 피사체의 중점을 따라가요. 2D 레이어 두 개의 이름을 코드에 맞추세요.",
     "code": "const a = thisComp.layer(\"Target A\");\nconst b = thisComp.layer(\"Target B\");\nconst midpoint = (a.toComp(a.anchorPoint) + b.toComp(b.anchorPoint)) / 2;\nhasParent ? parent.fromComp(midpoint) : midpoint;",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Position%20one%20layer%20between%20two%20others"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Position%20one%20layer%20between%20two%20others",
+    "guide": {
+      "property": "세 번째 2D 레이어의 Position",
+      "preparation": "기준 레이어 두 개와 그 사이에 둘 레이어 하나를 준비하세요.",
+      "steps": [
+        "기준 레이어 이름을 Target A와 Target B로 맞추세요. 각 레이어의 앵커가 중점을 계산하는 기준이에요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "한쪽 기준 레이어를 움직일 때 세 번째 레이어가 두 앵커의 중점으로 이동해요."
+    }
   },
   {
     "name": "시간차로 줄지어 따라가기",
@@ -108,76 +252,177 @@
     "sourceUrl": "https://www.motionscript.com/mastering-expressions/follow-the-leader.html",
     "additionalSourceUrls": [
       "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Create%20a%20trail%20of%20images"
-    ]
+    ],
+    "guide": {
+      "property": "따라가는 복제 레이어들의 Position",
+      "preparation": "선두와 복제 레이어를 준비하고 모두 같은 부모를 쓰거나 모두 부모 없이 두세요.",
+      "steps": [
+        "선두 이름을 Leader로 바꾸고 Position에 키프레임을 찍으세요. 복제 레이어를 Leader 바로 아래에 연속으로 배치하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "바로 아래는 5프레임, 그다음은 10프레임 늦게 같은 경로를 따라가요."
+    }
   },
   {
     "name": "패스 위에 오브젝트 배치",
     "category": "Position",
     "description": "편집 가능한 곡선 위에 오브젝트를 놓고 진행률을 조절해요. Path 레이어의 Mask 1과 적용할 2D 레이어의 Progress 슬라이더를 연결하세요.",
     "code": "const pathLayer = thisComp.layer(\"Path\");\nconst progress = clamp(effect(\"Progress\")(\"Slider\") / 100, 0, 1);\nconst point = pathLayer.mask(\"Mask 1\").maskPath.pointOnPath(progress);\nconst compPoint = pathLayer.toComp(point);\nhasParent ? parent.fromComp(compPoint) : compPoint;",
-    "sourceUrl": "https://frangiordano96.gitbook.io/ae-expressions/quick-tips/after-effects-align-elements-on-a-path"
+    "sourceUrl": "https://frangiordano96.gitbook.io/ae-expressions/quick-tips/after-effects-align-elements-on-a-path",
+    "guide": {
+      "property": "패스를 따라갈 2D 레이어의 Position",
+      "preparation": "Path라는 레이어에 펜 도구로 Mask 1을 만드세요.",
+      "steps": [
+        "움직일 레이어에 Slider Control을 추가해 Progress로 이름을 바꾸고, 0에서 100으로 키프레임을 찍으세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "Progress가 바뀌면 오브젝트가 마스크 패스의 시작점에서 끝점으로 이동해요."
+    }
   },
   {
     "name": "긴 제목 자동 축소",
     "category": "Scale",
     "description": "텍스트가 최대 폭을 넘을 때 비율을 유지하며 줄여요. 2D 텍스트 레이어에 Max Width 슬라이더를 만들고 픽셀 단위 폭을 입력하세요.",
     "code": "const limit = effect(\"Max Width\")(\"Slider\");\nconst width = sourceRectAtTime(time, false).width * Math.abs(value[0]) / 100;\nconst factor = limit > 0 && width > limit ? limit / width : 1;\nvalue * factor;",
-    "sourceUrl": "https://aereference.com/expressions/max-width-scale-of-text-layer"
+    "sourceUrl": "https://aereference.com/expressions/max-width-scale-of-text-layer",
+    "guide": {
+      "property": "2D 텍스트 레이어의 Scale",
+      "preparation": "길이가 바뀔 제목 텍스트를 준비하세요.",
+      "steps": [
+        "같은 레이어에 Slider Control을 추가해 Max Width로 이름을 바꾸고, 최대 폭을 픽셀 단위로 입력하세요. 예를 들어 500을 입력해 보세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "짧은 제목은 기본 크기를 유지하고 긴 제목은 설정한 폭 안에 들어오도록 작아져요."
+    }
   },
   {
     "name": "부모 확대 중 자식 크기 보정",
     "category": "Scale",
     "description": "확대되는 지도에 붙은 핀처럼 부모가 확대돼도 자식의 크기를 유지해요. 한 단계의 부모 관계에서 사용하세요. 2D는 2D끼리, 3D는 3D끼리 연결하세요.",
     "code": "if (hasParent) {\n  const parentScale = parent.scale.value;\n  value.map((axis, i) => parentScale[i] === 0 ? axis : axis * 100 / parentScale[i]);\n} else {\n  value;\n}",
-    "sourceUrl": "https://aereference.com/expressions/ignore-parent-scale"
+    "sourceUrl": "https://aereference.com/expressions/ignore-parent-scale",
+    "guide": {
+      "property": "자식 레이어의 Scale",
+      "preparation": "부모·자식 레이어를 한 단계로 연결하세요. 둘 다 2D 또는 둘 다 3D로 맞추세요.",
+      "steps": [
+        "부모 Scale을 100%에서 200%로 키우는 테스트를 준비하세요. 처음엔 축 비율을 동일하게 설정하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "부모가 확대돼도 자식이 연결된 위치를 따라가면서 화면 크기는 유지돼요."
+    }
   },
   {
     "name": "3D 원근에 따른 화면 크기 보정",
     "category": "Scale",
     "description": "레이어가 카메라에 가까워지거나 카메라 줌이 바뀔 때 Scale을 보정해요. 활성 카메라가 있는 장면에서 정면을 향한 3D 레이어에 적용하면 레이어 시작 시점의 화면 크기를 기준으로 삼아요.",
     "code": "const camera = thisComp.activeCamera;\nif (camera) {\n  const referenceTime = inPoint;\n  const depth = camera.fromWorld(toWorld(anchorPoint))[2];\n  const referencePoint = toWorld(anchorPoint.valueAtTime(referenceTime), referenceTime);\n  const referenceDepth = camera.fromWorld(referencePoint, referenceTime)[2];\n  const zoom = camera.cameraOption.zoom;\n  const factor = depth > 0 && referenceDepth > 0\n    ? (depth / referenceDepth) * (zoom.valueAtTime(referenceTime) / zoom.value)\n    : 1;\n  value * factor;\n} else {\n  value;\n}",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-language-reference/expression-language-reference.html#:~:text=maintains%20the%20relative%20size"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-language-reference/expression-language-reference.html#:~:text=maintains%20the%20relative%20size",
+    "guide": {
+      "property": "3D 레이어의 Scale",
+      "preparation": "카메라와 정면을 향하는 3D 레이어를 준비하세요.",
+      "steps": [
+        "레이어 시작 프레임에서 기준 크기를 정하고, 같은 카메라로 Z 위치나 줌을 바꿔 보세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "정면을 유지하면 카메라에 가까워지거나 멀어져도 화면에서 보이는 크기가 비슷해요."
+    }
   },
   {
     "name": "뒷면에서 좌우 반전",
     "category": "Scale",
     "description": "3D 카드가 카메라에 등을 보일 때 X Scale을 뒤집어 글자의 좌우 반전을 보정해요.",
     "code": "const isFront = toCompVec([0, 0, 1])[2] > 0;\nisFront ? value : [-value[0], value[1], value[2]];",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Flip%20layer%20horizontally%20if%20facing%20away%20from%20camera"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Flip%20layer%20horizontally%20if%20facing%20away%20from%20camera",
+    "guide": {
+      "property": "3D 레이어의 Scale",
+      "preparation": "글자나 기호가 들어 있는 3D 카드를 준비하세요.",
+      "steps": [
+        "카드가 카메라에 앞면과 뒷면을 번갈아 보여주도록 Y Rotation에 키프레임을 찍으세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "카드의 뒷면이 보일 때 글자의 좌우가 보정돼요."
+    }
   },
   {
     "name": "이동 거리에 맞춰 바퀴 굴리기",
     "category": "Rotation",
     "description": "차체의 수평 이동량을 바퀴 회전으로 바꿔요. Vehicle 레이어를 참조하며 바퀴 중심에 앵커를 놓고, 반지름을 화면상 픽셀 단위로 맞추세요.",
     "code": "const vehicle = thisComp.layer(\"Vehicle\");\nconst radius = 50;\nconst start = vehicle.toWorld(vehicle.anchorPoint.valueAtTime(inPoint), inPoint);\nconst current = vehicle.toWorld(vehicle.anchorPoint);\nvalue + radiansToDegrees((current[0] - start[0]) / radius);",
-    "sourceUrl": "https://vimeo.com/2913384"
+    "sourceUrl": "https://vimeo.com/2913384",
+    "guide": {
+      "property": "2D 바퀴 레이어의 Rotation",
+      "preparation": "수평으로 이동하는 Vehicle 레이어와 바퀴 그래픽을 준비하세요.",
+      "steps": [
+        "바퀴를 차체에 연결하고 앵커를 바퀴 중앙에 놓으세요. 코드의 radius를 바퀴의 화면상 반지름(px)으로 맞추세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "차체가 바퀴 둘레만큼 수평으로 이동할 때 바퀴가 한 바퀴 돌아요."
+    }
   },
   {
     "name": "시계 바늘 연동",
     "category": "Rotation",
     "description": "Second Hand의 회전에서 분침과 시침 각도를 계산해요. 분침의 Rotation에 적용하고, 시침에서는 ratio를 720으로 바꾸세요.",
     "code": "const seconds = thisComp.layer(\"Second Hand\").rotation;\nconst ratio = 60;\nvalue + seconds / ratio;",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Rotate%20with%20time"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Rotate%20with%20time",
+    "guide": {
+      "property": "분침과 시침 각각의 Rotation",
+      "preparation": "초침·분침·시침 레이어를 준비하고 모든 앵커를 바늘이 만나는 축에 맞추세요.",
+      "steps": [
+        "초침 이름을 Second Hand로 맞추고 Rotation을 애니메이션하세요. 같은 코드를 분침과 시침에 붙이되 시침의 ratio를 720으로 바꾸세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "초침이 한 바퀴 돌면 분침은 6°, 시침은 0.5° 움직여요."
+    }
   },
   {
     "name": "회전하는 부모 위에서 수평 유지",
     "category": "Rotation",
     "description": "부모가 돌 때 자식의 각도를 보정해요. 2D 원판에 붙은 라벨이 원판을 따라 움직이면서도 똑바로 보이게 할 수 있어요.",
     "code": "hasParent ? value - parent.rotation : value;",
-    "sourceUrl": "https://aereference.com/expressions/ignore-parent-rotation"
+    "sourceUrl": "https://aereference.com/expressions/ignore-parent-rotation",
+    "guide": {
+      "property": "부모에 연결된 2D 자식 레이어의 Rotation",
+      "preparation": "회전하는 부모와 똑바로 유지할 라벨을 준비하세요.",
+      "steps": [
+        "라벨을 회전하는 부모에 연결하고 자식의 기본 Rotation을 원하는 각도로 설정하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "원판을 돌리면 라벨은 위치를 따라가면서 읽는 방향을 유지해요."
+    }
   },
   {
     "name": "손을 움직이면 팔꿈치가 굽는 2D IK",
     "category": "Rotation",
     "description": "손 위치를 움직이면 위팔과 아래팔의 각도가 함께 계산돼요. 관절 위치에 앵커를 놓고 부모 연결과 제어 레이어를 설정하는 과정은 원문을 참고하세요.",
-    "sourceUrl": "https://www.motionscript.com/design-guide/ik.html"
+    "sourceUrl": "https://www.motionscript.com/design-guide/ik.html",
+    "guide": {
+      "property": "위팔과 아래팔 레이어 각각의 Rotation",
+      "preparation": "몸통·위팔·아래팔·손을 각각 2D 레이어로 준비하고, 손 위치를 조절할 Null 하나를 만드세요.",
+      "steps": [
+        "위팔 앵커를 어깨, 아래팔 앵커를 팔꿈치, 손 앵커를 손목 위치에 놓으세요.",
+        "Parent & Link에서 위팔의 부모를 몸통으로, 아래팔의 부모를 위팔로, 손의 부모를 아래팔로 지정하세요.",
+        "조작용 Null을 손목에 놓으세요. 몸통을 움직여도 손이 같은 지점을 향하게 하려면 Null의 부모를 비워 두세요.",
+        "제목 옆 ↗에서 원문의 IK 코드를 열고 위팔과 아래팔의 Rotation에 각각 붙여넣으세요. 코드 상단의 레이어 이름을 프로젝트와 맞추고, upper는 위팔에서 true, 아래팔에서 false로 설정하세요. 팔꿈치가 반대로 꺾이면 두 코드의 cw 값을 함께 바꾸세요."
+      ],
+      "check": "Null을 움직였을 때 손이 따라오고 팔꿈치가 굽으면 연결된 거예요."
+    }
   },
   {
     "name": "카메라에서 멀어지면 사라지기",
     "category": "Opacity",
     "description": "3D 레이어가 카메라에서 멀어지면 점차 흐려져요. 활성 카메라가 필요하고, 거리 두 값으로 페이드 구간을 정해요.",
     "code": "const camera = thisComp.activeCamera;\nif (camera) {\n  const distance = length(camera.toWorld([0, 0, 0]), toWorld(anchorPoint));\n  linear(distance, 500, 1500, value, 0);\n} else {\n  value;\n}",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Fade%20opacity%20of%20a%203D%20layer%20based%20on%20distance%20from%20camera"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Fade%20opacity%20of%20a%203D%20layer%20based%20on%20distance%20from%20camera",
+    "guide": {
+      "property": "3D 레이어의 Opacity",
+      "preparation": "카메라가 있는 컴프에 3D 레이어를 놓으세요.",
+      "steps": [
+        "카메라와 레이어 사이 거리가 바뀌도록 위치 키프레임을 만들어요. 코드의 500과 1500이 페이드 시작·종료 거리예요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "레이어가 카메라에서 멀어지면 설정한 거리 범위에서 부드럽게 투명해져요."
+    }
   },
   {
     "name": "카메라에 보이는 면만 표시",
@@ -187,102 +432,242 @@
     "sourceUrl": "https://www.motionscript.com/design-guide/invisible-facing-away.html",
     "additionalSourceUrls": [
       "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Make%20a%203D%20layer%20invisible%20if%20facing%20away%20from%20camera"
-    ]
+    ],
+    "guide": {
+      "property": "3D 레이어의 Opacity",
+      "preparation": "앞면과 뒷면을 구분할 3D 그래픽을 준비하세요.",
+      "steps": [
+        "한 면만으로 먼저 시험하려면 Y Rotation을 0°에서 180°로 돌리세요. 두 면을 쓰려면 반대 방향을 향한 레이어에도 적용하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "카메라를 향하는 면이 보이고 등을 돌린 면은 숨겨져요."
+    }
   },
   {
     "name": "드롭다운으로 그래픽 교체",
     "category": "Opacity",
     "description": "메뉴에서 선택한 아이콘이나 표정만 표시해요. CONTROLS 레이어의 Variant 드롭다운과 각 그래픽 레이어 이름 맨 앞의 번호를 맞추세요.",
     "code": "const selection = thisComp.layer(\"CONTROLS\").effect(\"Variant\")(\"Menu\").value;\nconst option = parseInt(thisLayer.name, 10);\nselection === option ? value : 0;",
-    "sourceUrl": "https://aereference.com/expressions/dropdown-menu-select"
+    "sourceUrl": "https://aereference.com/expressions/dropdown-menu-select",
+    "guide": {
+      "property": "전환할 그래픽 레이어 각각의 Opacity",
+      "preparation": "그래픽 여러 개와 CONTROLS라는 Null을 준비하세요.",
+      "steps": [
+        "Null에 Dropdown Menu Control을 추가해 Variant로 이름을 바꾸세요. 그래픽 이름은 메뉴 순서에 맞춰 1 Red, 2 Blue처럼 숫자로 시작하게 하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "메뉴를 바꿀 때 번호가 일치하는 그래픽만 원래 Opacity로 보여요."
+    }
   },
   {
     "name": "비트마다 레이어 하나씩 등장",
     "category": "Opacity",
     "description": "오디오 진폭이 문턱값을 넘을 때마다 다음 레이어가 나타나요. 오디오를 키프레임으로 변환하고 비트 개수를 전달하는 슬라이더를 설정하는 방법은 원문을 참고하세요.",
-    "sourceUrl": "https://motionscript.com/design-guide/audio-count.html"
+    "sourceUrl": "https://motionscript.com/design-guide/audio-count.html",
+    "guide": {
+      "property": "control Null의 Slider와 각 그래픽 레이어의 Opacity",
+      "preparation": "같은 컴프에 음악 레이어와 순서대로 나타낼 그래픽을 준비하세요. 원문 예제는 그래픽 6개를 타임라인 맨 위에 연속으로 배치해요.",
+      "steps": [
+        "음악 레이어를 선택하고 Animation → Keyframe Assistant → Convert Audio to Keyframes를 실행하세요. 생성된 Audio Amplitude 레이어의 Both Channels 슬라이더를 사용해요.",
+        "control이라는 Null을 만들고 Slider Control을 추가하세요. 제목 옆 ↗에서 원문의 비트 카운트 코드를 찾아 이 Slider에 붙여넣으세요.",
+        "원문의 Opacity 코드를 그래픽마다 붙여넣고, 코드의 n 값을 타임라인 맨 위에 배치한 그래픽 개수와 맞추세요.",
+        "너무 자주 등장하면 카운트 코드의 threshold를 높이고, 등장하지 않으면 낮추세요."
+      ],
+      "check": "미리 보기에서 소리가 문턱값 아래에서 위로 넘어갈 때마다 맨 아래 그래픽부터 하나씩 나타나면 맞아요."
+    }
   },
   {
     "name": "숫자 카운터",
     "category": "Etc",
     "description": "Source Text에 적용해 점수·금액·통계 숫자를 올리거나 내려요. 같은 텍스트 레이어의 Count 슬라이더에 키프레임을 찍으세요. 카드 코드는 숫자 값을 바꾸는 기본형이고, 자릿수가 굴러가는 연출은 원문에서 볼 수 있어요.",
     "code": "const count = effect(\"Count\")(\"Slider\");\nMath.round(count.value).toString();",
-    "sourceUrl": "https://creativecow.net/rolling-number-counter-with-expressions-after-effects-tutorial/"
+    "sourceUrl": "https://creativecow.net/rolling-number-counter-with-expressions-after-effects-tutorial/",
+    "guide": {
+      "property": "텍스트 레이어의 Source Text",
+      "preparation": "숫자를 표시할 텍스트 레이어를 준비하세요.",
+      "steps": [
+        "같은 레이어에 Slider Control을 추가해 Count로 이름을 바꾸고, 예를 들어 0에서 100까지 키프레임을 찍으세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "재생하면 화면에 반올림된 정수 값이 표시돼요."
+    }
   },
   {
     "name": "크기를 바꿔도 선 두께 유지",
     "category": "Etc",
     "description": "Stroke Width에 적용하면 도형 레이어의 Scale을 균일하게 바꿀 때 외곽선 두께를 유지할 수 있어요.",
     "code": "const factor = Math.abs(transform.scale[0]) / 100;\nfactor > 0 ? value / factor : value;",
-    "sourceUrl": "https://aereference.com/expressions/maintain-stroke-width"
+    "sourceUrl": "https://aereference.com/expressions/maintain-stroke-width",
+    "guide": {
+      "property": "도형의 Contents 안에 있는 Stroke Width",
+      "preparation": "Stroke가 있는 Shape Layer를 준비하세요.",
+      "steps": [
+        "Shape 그룹의 Scale은 그대로 두고 레이어 전체의 Scale을 X·Y 동일한 비율로 바꾸세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "도형의 크기가 변해도 선 두께는 비슷하게 유지돼요."
+    }
   },
   {
     "name": "마커로 프리컴프 동작 호출",
     "category": "Etc",
-    "description": "Time Remap에서 마커에 지정한 표정이나 동작을 재생해요. 프리컴프 안의 동작 마커와 상위 컴포지션의 호출 마커를 연결하는 방법은 원문을 참고하세요.",
-    "sourceUrl": "https://www.motionscript.com/design-guide/marker-sync.html"
+    "description": "한 번 만들어 둔 깜빡임이나 웃는 동작을 메인 타임라인의 레이어 마커로 원하는 순간마다 재생해요.",
+    "sourceUrl": "https://www.motionscript.com/design-guide/marker-sync.html",
+    "guide": {
+      "property": "메인 컴프 → 얼굴 프리컴프 레이어 → Time Remap",
+      "preparation": "얼굴 프리컴프 안에 눈과 입의 키프레임, 그리고 action이라는 Null 하나를 준비하세요.",
+      "steps": [
+        "얼굴 프리컴프 안에서 action Null을 선택하세요. 눈 깜빡임의 첫 키프레임에 blink, 웃는 동작의 첫 키프레임에 smile 레이어 마커를 붙이세요. 이름은 마커를 더블클릭해 Comment에 입력해요.",
+        "메인 컴프로 돌아가 얼굴 프리컴프 레이어 하나에 2초 blink, 5초 smile, 8초 blink 마커를 붙이세요. 마커 이름의 철자와 대소문자를 안쪽과 맞추세요.",
+        "메인 컴프의 얼굴 프리컴프 레이어를 선택한 상태에서 Windows 기준 Ctrl+Alt+T를 누르세요. Time Remap 스톱워치를 Alt+클릭하고 아래 코드를 붙여넣으세요.",
+        "얼굴 레이어 막대가 8초 이후까지 이어지는지 확인하고 재생하세요."
+      ],
+      "check": "2초와 8초에 같은 깜빡임이 재생되고 5초에 웃으면 맞아요. 두 번째 blink 마커만 9초로 옮기면 첫 깜빡임은 2초에 남아요."
+    },
+    "code": "var faceComp = thisLayer.source;\nvar actionMarkers = faceComp.layer(\"action\").marker;\nvar playbackTime = 0;\n\nif (marker.numKeys > 0) {\n  var cueIndex = marker.nearestKey(time).index;\n  if (marker.key(cueIndex).time > time) {\n    cueIndex--;\n  }\n\n  if (cueIndex > 0) {\n    var cue = marker.key(cueIndex);\n\n    for (var i = 1; i <= actionMarkers.numKeys; i++) {\n      var action = actionMarkers.key(i);\n      if (action.comment !== cue.comment) continue;\n\n      var end = i < actionMarkers.numKeys\n        ? actionMarkers.key(i + 1).time\n        : faceComp.duration;\n      var lastFrame = Math.max(action.time, end - faceComp.frameDuration);\n\n      playbackTime = Math.min(action.time + time - cue.time, lastFrame);\n      break;\n    }\n  }\n}\n\nplaybackTime;"
   },
   {
     "name": "구름이 가리면 렌즈 플레어 약해지기",
     "category": "Etc",
     "description": "Flare Brightness에 적용해 구름 레이어의 알파에 따라 플레어 밝기를 줄여요. Clouds 레이어와 같은 레이어의 Lens Flare 효과가 필요해요.",
     "code": "const clouds = thisComp.layer(\"Clouds\");\nconst flarePoint = effect(\"Lens Flare\")(\"Flare Center\");\nconst cloudPoint = clouds.fromComp(toComp(flarePoint));\nconst alpha = clouds.sampleImage(cloudPoint, [2, 2], true, time)[3];\nvalue * (1 - clamp(alpha, 0, 1));",
-    "sourceUrl": "https://www.motionscript.com/design-guide/obscuration.html"
+    "sourceUrl": "https://www.motionscript.com/design-guide/obscuration.html",
+    "guide": {
+      "property": "Lens Flare 효과의 Flare Brightness",
+      "preparation": "투명도 정보가 있는 Clouds 레이어와 Lens Flare가 적용된 별도 2D 레이어를 준비하세요.",
+      "steps": [
+        "Flare Center를 구름의 투명 영역과 불투명 영역 사이로 움직이도록 키프레임을 찍으세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "플레어가 불투명한 구름 뒤에 오면 약해지고 투명한 영역에서 다시 밝아져요."
+    }
   },
   {
     "name": "슬라이더로 흔들림 강도 조절",
     "category": "Position",
     "description": "같은 레이어에 Wiggle Amount라는 Slider Control을 추가하고 Position에 적용해요. 슬라이더를 0으로 두면 흔들림이 멈추고, 슬라이더에 키프레임을 찍으면 강도가 시간에 따라 바뀌어요.",
     "code": "const frequency = 4;\nconst amount = effect(\"Wiggle Amount\")(\"Slider\").value;\nwiggle(frequency, amount);",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Control%20a%20wiggle%20with%20Slider%20controls"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Control%20a%20wiggle%20with%20Slider%20controls",
+    "guide": {
+      "property": "레이어의 Position",
+      "preparation": "같은 레이어에 Slider Control을 추가하세요.",
+      "steps": [
+        "슬라이더 효과 이름을 Wiggle Amount로 바꾸고 값에 0 → 30 → 0 키프레임을 찍으세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "슬라이더가 0일 때는 멈추고 값이 커질수록 흔들림이 강해져요."
+    }
   },
   {
     "name": "화면 중앙을 원형으로 돌기",
     "category": "Position",
     "description": "부모가 없는 2D 레이어의 Position에 적용해요. 컴포지션 중앙을 기준으로 원을 돌며, radius는 반지름(px), period는 한 바퀴에 걸리는 시간(초)이에요.",
     "code": "const radius = 50;\nconst period = 4;\nconst angle = (time - inPoint) / period * Math.PI * 2;\nconst x = thisComp.width / 2 + Math.sin(angle) * radius;\nconst y = thisComp.height / 2 - Math.cos(angle) * radius;\n[x, y];",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Layer%20revolves%20in%20a%20circle"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Layer%20revolves%20in%20a%20circle",
+    "guide": {
+      "property": "부모가 없는 2D 레이어의 Position",
+      "preparation": "화면 중앙을 돌게 할 레이어를 준비하세요. 차원 분리는 꺼 두세요.",
+      "steps": [
+        "코드의 radius에 이동 반지름(px), period에 한 바퀴의 시간(초)을 정하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "레이어가 컴프 중앙의 위쪽에서 출발해 지정한 시간마다 한 바퀴 돌아요."
+    }
   },
   {
     "name": "부모가 연결된 레이어의 실제 화면 위치 따라가기",
     "category": "Position",
     "description": "부모의 이동·회전·크기가 반영된 대상의 앵커 위치를 따라가요. 대상 이름을 Parented Layer로 맞추고, 따라가는 쪽은 부모가 없는 2D 레이어의 Position에 적용하세요.",
     "code": "const target = thisComp.layer(\"Parented Layer\");\nconst point = target.toComp(target.anchorPoint);\n[point[0], point[1]];",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Get%20the%20true%20Position%20of%20a%20parented%20layer"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Get%20the%20true%20Position%20of%20a%20parented%20layer",
+    "guide": {
+      "property": "따라갈 위치를 받는 2D 레이어의 Position",
+      "preparation": "부모에 연결된 대상과 부모가 없는 별도 2D 레이어를 준비하세요.",
+      "steps": [
+        "대상 이름을 Parented Layer로 바꾸세요. 결과를 확인하기 쉽게 대상의 부모에 Rotation 키프레임을 찍으세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "부모가 회전해도 별도 레이어가 대상 앵커의 실제 화면 위치에 붙어 있어요."
+    }
   },
   {
     "name": "부모 움직임을 늦게 따라가기",
     "category": "Position",
     "description": "부모가 연결된 2D 자식의 Position에 적용해요. 기본 지연은 5프레임이에요. staggerByIndex를 true로 바꾸면 부모 아래에 배치한 자식의 순서에 따라 지연이 늘어나요.",
     "code": "const delayFrames = 5;\nconst staggerByIndex = false;\nif (hasParent) {\n  const multiplier = staggerByIndex ? Math.max(0, index - parent.index) : 1;\n  const sampleTime = time - framesToTime(delayFrames * multiplier);\n  const delayedPoint = parent.toComp(thisProperty.valueAtTime(sampleTime), sampleTime);\n  parent.fromComp(delayedPoint);\n} else {\n  value;\n}",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Delay%20a%20layer's%20Position%20from%20its%20parent"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Delay%20a%20layer's%20Position%20from%20its%20parent",
+    "guide": {
+      "property": "부모에 연결된 2D 자식의 Position",
+      "preparation": "이동하는 2D 부모 레이어와 그 아래에 둘 자식 레이어를 준비하세요.",
+      "steps": [
+        "자식을 부모에 연결하고 부모 Position에 이동 키프레임을 찍으세요. 순차 지연이 필요하면 자식을 부모 바로 아래에 배치하고 staggerByIndex를 true로 바꾸세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "기본 설정에선 자식이 부모의 움직임을 5프레임 늦게 따라가요."
+    }
   },
   {
     "name": "정해진 구간에만 흔들기",
     "category": "Position",
     "description": "Position에 적용해 컴포지션의 2초부터 4초 사이에만 흔들어요. 시작 즉시 흔들려면 startAt을 0으로, 시작 이후 계속 흔들려면 stopAt을 Infinity로 바꾸세요. 경계에서 강도를 부드럽게 바꾸려면 슬라이더 예제를 사용하세요.",
     "code": "const startAt = 2;\nconst stopAt = 4;\ntime >= startAt && time < stopAt ? wiggle(3, 25) : value;",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Start%20or%20stop%20wiggle%20at%20specific%20time"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Start%20or%20stop%20wiggle%20at%20specific%20time",
+    "guide": {
+      "property": "레이어의 Position",
+      "preparation": "컴포지션의 4초 이후까지 이어지는 레이어를 준비하세요.",
+      "steps": [
+        "원하는 시작·종료 시간을 초 단위로 startAt과 stopAt에 설정하세요. 기본값은 2초와 4초예요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "지정한 구간에만 흔들리고 그 전후에는 원래 Position으로 돌아와요."
+    }
   },
   {
     "name": "돋보기 위치에 맞춰 화면 볼록하게 만들기",
     "category": "Etc",
     "description": "2D 배경에 Bulge 효과를 추가하고 Bulge Center에 적용해요. Magnifier 레이어를 움직이면 그 앵커를 따라 왜곡의 중심도 움직여요.",
     "code": "const lens = thisComp.layer(\"Magnifier\");\nconst screenPoint = lens.toComp(lens.anchorPoint);\nconst effectPoint = fromComp(screenPoint);\n[effectPoint[0], effectPoint[1]];",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Create%20a%20bulge%20between%20two%20layers"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Create%20a%20bulge%20between%20two%20layers",
+    "guide": {
+      "property": "배경 레이어의 Bulge 효과 → Bulge Center",
+      "preparation": "2D 배경과 Magnifier라는 돋보기 레이어를 준비하세요.",
+      "steps": [
+        "배경에 Bulge 효과를 추가하세요. 돋보기의 앵커를 렌즈 중심에 놓고 화면을 가로지르도록 움직이세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "돋보기의 앵커를 따라 배경에서 볼록해지는 위치도 움직여요."
+    }
   },
   {
     "name": "마커마다 크기 탄성 주기",
     "category": "Scale",
     "description": "2D 레이어의 Scale에 적용하고 레이어 마커를 추가하세요. 각 마커에서 X축과 Y축이 반대 방향으로 변형되고 점차 원래 크기로 돌아와요.",
     "code": "const frequency = 5;\nconst amplitude = 0.15;\nconst decay = 3;\nlet markerIndex = marker.numKeys ? marker.nearestKey(time).index : 0;\nif (markerIndex && marker.key(markerIndex).time > time) markerIndex--;\nif (markerIndex) {\n  const elapsed = time - marker.key(markerIndex).time;\n  const wave = Math.sin(elapsed * frequency * Math.PI * 2);\n  const factor = 1 + amplitude * wave * Math.exp(-decay * elapsed);\n  [value[0] * factor, value[1] / factor];\n} else {\n  value;\n}",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Animate%20scale%20at%20each%20layer%20marker"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Animate%20scale%20at%20each%20layer%20marker",
+    "guide": {
+      "property": "2D 레이어의 Scale",
+      "preparation": "크기에 탄성을 줄 2D 레이어를 준비하세요.",
+      "steps": [
+        "레이어를 선택하고 움직임을 시작할 시점마다 숫자 키패드의 * 또는 Layer → Add Marker로 레이어 마커를 추가하세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "마커마다 가로와 세로가 반대 방향으로 튕긴 뒤 기본 Scale로 돌아와요."
+    }
   },
   {
     "name": "카메라 초점을 대상에 고정",
     "category": "Etc",
     "description": "카메라에서 Depth of Field를 켜고 Focus Distance에 적용하세요. Target이라는 3D 레이어의 앵커가 카메라의 초점면에 놓이도록 초점 거리를 계산해요.",
     "code": "const target = thisComp.layer(\"Target\");\nconst point = target.toWorld(target.anchorPoint);\nconst cameraOrigin = toWorld([0, 0, 0]);\nconst forward = normalize(toWorldVec([0, 0, 1]));\nMath.max(0, dot(point - cameraOrigin, forward));",
-    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Match%20camera%20focal%20plane%20to%20another%20layer"
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Match%20camera%20focal%20plane%20to%20another%20layer",
+    "guide": {
+      "property": "카메라의 Camera Options → Focus Distance",
+      "preparation": "카메라와 초점을 맞출 3D 레이어를 준비하세요.",
+      "steps": [
+        "대상 레이어 이름을 Target으로 맞추고 카메라의 Depth of Field를 On으로 켜세요. 대상의 Z 위치를 움직여 보세요.",
+        "해당 속성의 스톱워치를 Alt+클릭(Windows)하거나 Option+클릭(Mac)하고 아래 코드를 붙여넣으세요."
+      ],
+      "check": "대상이 깊이 방향으로 움직일 때 Focus Distance 값이 함께 변해요."
+    }
   }
 ]
