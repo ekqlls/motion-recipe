@@ -15,7 +15,8 @@
     "name": "무한 반복",
     "category": "Loop",
     "description": "기존 키프레임 애니메이션을 반복",
-    "code": "loopOut(\"cycle\");"
+    "code": "loopOut(\"cycle\");",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Loop"
   },
   {
     "name": "좌우로 부드럽고 반복적인 흔들림 (Swing)",
@@ -33,7 +34,8 @@
     "name": "불규칙하게 흔들기 (Wiggle)",
     "category": "Position",
     "description": "위치를 불규칙하게 흔들어 떨림이나 진동을 만듭니다. 첫 번째 인수는 초당 횟수, 두 번째는 흔들림 범위(px)입니다.",
-    "code": "wiggle(2, 20);"
+    "code": "wiggle(2, 20);",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Wiggle%20randomly"
   },
   {
     "name": "두근두근 크기 변화 (Heartbeat)",
@@ -45,7 +47,8 @@
     "name": "키프레임 뒤에 탄성 추가 (Bounce)",
     "category": "Position · Scale · Rotation",
     "description": "움직임을 만드는 키프레임이 있는 Position, Scale, Rotation 중 원하는 속성에 적용합니다. amp는 튕기는 강도, freq는 진동 횟수, decay는 감쇠 속도입니다.",
-    "code": "amp = 0.05;\nfreq = 4.0;\ndecay = 3.0;\n\nn = 0;\n\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n\n  if (key(n).time > time) {\n    n--;\n  }\n}\n\nif (n == 0) {\n  t = 0;\n} else {\n  t = time - key(n).time;\n}\n\nif (n > 0 && t < 1) {\n  v = velocityAtTime(key(n).time - thisComp.frameDuration / 10);\n  value + v * amp * Math.sin(freq * t * Math.PI * 2) / Math.exp(decay * t);\n} else {\n  value;\n}"
+    "code": "amp = 0.05;\nfreq = 4.0;\ndecay = 3.0;\n\nn = 0;\n\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n\n  if (key(n).time > time) {\n    n--;\n  }\n}\n\nif (n == 0) {\n  t = 0;\n} else {\n  t = time - key(n).time;\n}\n\nif (n > 0 && t < 1) {\n  v = velocityAtTime(key(n).time - thisComp.frameDuration / 10);\n  value + v * amp * Math.sin(freq * t * Math.PI * 2) / Math.exp(decay * t);\n} else {\n  value;\n}",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Overshoot"
   },
   {
     "name": "깜빡깜빡",
@@ -82,5 +85,204 @@
     "category": "Rotation",
     "description": "같은 2D 레이어가 이동 방향을 바라보게 합니다. 이 코드는 Rotation에 붙여넣고 Position·Scale 코드도 각각 적용하세요. 소스가 오른쪽을 향할 때 진행 방향과 일치합니다.",
     "code": "v = transform.position.velocity;\n\nif (length(v) > 0.001) {\n  radiansToDegrees(Math.atan2(v[1], v[0]));\n} else {\n  value;\n}"
+  },
+  {
+    "name": "컴포지션 중앙 고정",
+    "category": "Position",
+    "description": "컴포지션 크기가 달라져도 타이틀이나 로고가 화면 중앙에 놓여요. 부모가 없는 2D 레이어의 Position에 적용하세요.",
+    "code": "[thisComp.width / 2, thisComp.height / 2];",
+    "sourceUrl": "https://aereference.com/expressions/get-center-scale-of-comp"
+  },
+  {
+    "name": "두 레이어 사이에 배치",
+    "category": "Position",
+    "description": "두 피사체가 움직일 때 라벨이나 그래픽이 두 피사체의 중점을 따라가요. 2D 레이어 두 개의 이름을 코드에 맞추세요.",
+    "code": "const a = thisComp.layer(\"Target A\");\nconst b = thisComp.layer(\"Target B\");\nconst midpoint = (a.toComp(a.anchorPoint) + b.toComp(b.anchorPoint)) / 2;\nhasParent ? parent.fromComp(midpoint) : midpoint;",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Position%20one%20layer%20between%20two%20others"
+  },
+  {
+    "name": "시간차로 줄지어 따라가기",
+    "category": "Position",
+    "description": "복제 레이어가 선두 레이어의 이전 위치를 차례로 따라가 행렬이나 잔상을 만들어요. 같은 부모를 쓰거나 부모가 없는 레이어를 Leader 바로 아래에 연속 배치하세요.",
+    "code": "const leader = thisComp.layer(\"Leader\");\nconst delay = framesToTime(5 * (index - leader.index));\nleader.position.valueAtTime(time - delay);",
+    "sourceUrl": "https://www.motionscript.com/mastering-expressions/follow-the-leader.html",
+    "additionalSourceUrls": [
+      "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Create%20a%20trail%20of%20images"
+    ]
+  },
+  {
+    "name": "패스 위에 오브젝트 배치",
+    "category": "Position",
+    "description": "편집 가능한 곡선 위에 오브젝트를 놓고 진행률을 조절해요. Path 레이어의 Mask 1과 적용할 2D 레이어의 Progress 슬라이더를 연결하세요.",
+    "code": "const pathLayer = thisComp.layer(\"Path\");\nconst progress = clamp(effect(\"Progress\")(\"Slider\") / 100, 0, 1);\nconst point = pathLayer.mask(\"Mask 1\").maskPath.pointOnPath(progress);\nconst compPoint = pathLayer.toComp(point);\nhasParent ? parent.fromComp(compPoint) : compPoint;",
+    "sourceUrl": "https://frangiordano96.gitbook.io/ae-expressions/quick-tips/after-effects-align-elements-on-a-path"
+  },
+  {
+    "name": "긴 제목 자동 축소",
+    "category": "Scale",
+    "description": "텍스트가 최대 폭을 넘을 때 비율을 유지하며 줄여요. 2D 텍스트 레이어에 Max Width 슬라이더를 만들고 픽셀 단위 폭을 입력하세요.",
+    "code": "const limit = effect(\"Max Width\")(\"Slider\");\nconst width = sourceRectAtTime(time, false).width * Math.abs(value[0]) / 100;\nconst factor = limit > 0 && width > limit ? limit / width : 1;\nvalue * factor;",
+    "sourceUrl": "https://aereference.com/expressions/max-width-scale-of-text-layer"
+  },
+  {
+    "name": "부모 확대 중 자식 크기 보정",
+    "category": "Scale",
+    "description": "확대되는 지도에 붙은 핀처럼 부모가 확대돼도 자식의 크기를 유지해요. 한 단계의 부모 관계에서 사용하세요. 2D는 2D끼리, 3D는 3D끼리 연결하세요.",
+    "code": "if (hasParent) {\n  const parentScale = parent.scale.value;\n  value.map((axis, i) => parentScale[i] === 0 ? axis : axis * 100 / parentScale[i]);\n} else {\n  value;\n}",
+    "sourceUrl": "https://aereference.com/expressions/ignore-parent-scale"
+  },
+  {
+    "name": "3D 원근에 따른 화면 크기 보정",
+    "category": "Scale",
+    "description": "레이어가 카메라에 가까워지거나 카메라 줌이 바뀔 때 Scale을 보정해요. 활성 카메라가 있는 장면에서 정면을 향한 3D 레이어에 적용하면 레이어 시작 시점의 화면 크기를 기준으로 삼아요.",
+    "code": "const camera = thisComp.activeCamera;\nif (camera) {\n  const referenceTime = inPoint;\n  const depth = camera.fromWorld(toWorld(anchorPoint))[2];\n  const referencePoint = toWorld(anchorPoint.valueAtTime(referenceTime), referenceTime);\n  const referenceDepth = camera.fromWorld(referencePoint, referenceTime)[2];\n  const zoom = camera.cameraOption.zoom;\n  const factor = depth > 0 && referenceDepth > 0\n    ? (depth / referenceDepth) * (zoom.valueAtTime(referenceTime) / zoom.value)\n    : 1;\n  value * factor;\n} else {\n  value;\n}",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-language-reference/expression-language-reference.html#:~:text=maintains%20the%20relative%20size"
+  },
+  {
+    "name": "뒷면에서 좌우 반전",
+    "category": "Scale",
+    "description": "3D 카드가 카메라에 등을 보일 때 X Scale을 뒤집어 글자의 좌우 반전을 보정해요.",
+    "code": "const isFront = toCompVec([0, 0, 1])[2] > 0;\nisFront ? value : [-value[0], value[1], value[2]];",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Flip%20layer%20horizontally%20if%20facing%20away%20from%20camera"
+  },
+  {
+    "name": "이동 거리에 맞춰 바퀴 굴리기",
+    "category": "Rotation",
+    "description": "차체의 수평 이동량을 바퀴 회전으로 바꿔요. Vehicle 레이어를 참조하며 바퀴 중심에 앵커를 놓고, 반지름을 화면상 픽셀 단위로 맞추세요.",
+    "code": "const vehicle = thisComp.layer(\"Vehicle\");\nconst radius = 50;\nconst start = vehicle.toWorld(vehicle.anchorPoint.valueAtTime(inPoint), inPoint);\nconst current = vehicle.toWorld(vehicle.anchorPoint);\nvalue + radiansToDegrees((current[0] - start[0]) / radius);",
+    "sourceUrl": "https://vimeo.com/2913384"
+  },
+  {
+    "name": "시계 바늘 연동",
+    "category": "Rotation",
+    "description": "Second Hand의 회전에서 분침과 시침 각도를 계산해요. 분침의 Rotation에 적용하고, 시침에서는 ratio를 720으로 바꾸세요.",
+    "code": "const seconds = thisComp.layer(\"Second Hand\").rotation;\nconst ratio = 60;\nvalue + seconds / ratio;",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Rotate%20with%20time"
+  },
+  {
+    "name": "회전하는 부모 위에서 수평 유지",
+    "category": "Rotation",
+    "description": "부모가 돌 때 자식의 각도를 보정해요. 2D 원판에 붙은 라벨이 원판을 따라 움직이면서도 똑바로 보이게 할 수 있어요.",
+    "code": "hasParent ? value - parent.rotation : value;",
+    "sourceUrl": "https://aereference.com/expressions/ignore-parent-rotation"
+  },
+  {
+    "name": "손을 움직이면 팔꿈치가 굽는 2D IK",
+    "category": "Rotation",
+    "description": "손 위치를 움직이면 위팔과 아래팔의 각도가 함께 계산돼요. 관절 위치에 앵커를 놓고 부모 연결과 제어 레이어를 설정하는 과정은 원문을 참고하세요.",
+    "sourceUrl": "https://www.motionscript.com/design-guide/ik.html"
+  },
+  {
+    "name": "카메라에서 멀어지면 사라지기",
+    "category": "Opacity",
+    "description": "3D 레이어가 카메라에서 멀어지면 점차 흐려져요. 활성 카메라가 필요하고, 거리 두 값으로 페이드 구간을 정해요.",
+    "code": "const camera = thisComp.activeCamera;\nif (camera) {\n  const distance = length(camera.toWorld([0, 0, 0]), toWorld(anchorPoint));\n  linear(distance, 500, 1500, value, 0);\n} else {\n  value;\n}",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Fade%20opacity%20of%20a%203D%20layer%20based%20on%20distance%20from%20camera"
+  },
+  {
+    "name": "카메라에 보이는 면만 표시",
+    "category": "Opacity",
+    "description": "3D 레이어가 뒤를 향하면 숨겨요. 앞면과 뒷면을 별도 레이어로 만든 카드나 간판에 사용할 수 있어요.",
+    "code": "const isFront = toCompVec([0, 0, 1])[2] > 0;\nisFront ? value : 0;",
+    "sourceUrl": "https://www.motionscript.com/design-guide/invisible-facing-away.html",
+    "additionalSourceUrls": [
+      "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Make%20a%203D%20layer%20invisible%20if%20facing%20away%20from%20camera"
+    ]
+  },
+  {
+    "name": "드롭다운으로 그래픽 교체",
+    "category": "Opacity",
+    "description": "메뉴에서 선택한 아이콘이나 표정만 표시해요. CONTROLS 레이어의 Variant 드롭다운과 각 그래픽 레이어 이름 맨 앞의 번호를 맞추세요.",
+    "code": "const selection = thisComp.layer(\"CONTROLS\").effect(\"Variant\")(\"Menu\").value;\nconst option = parseInt(thisLayer.name, 10);\nselection === option ? value : 0;",
+    "sourceUrl": "https://aereference.com/expressions/dropdown-menu-select"
+  },
+  {
+    "name": "비트마다 레이어 하나씩 등장",
+    "category": "Opacity",
+    "description": "오디오 진폭이 문턱값을 넘을 때마다 다음 레이어가 나타나요. 오디오를 키프레임으로 변환하고 비트 개수를 전달하는 슬라이더를 설정하는 방법은 원문을 참고하세요.",
+    "sourceUrl": "https://motionscript.com/design-guide/audio-count.html"
+  },
+  {
+    "name": "숫자 카운터",
+    "category": "Etc",
+    "description": "Source Text에 적용해 점수·금액·통계 숫자를 올리거나 내려요. 같은 텍스트 레이어의 Count 슬라이더에 키프레임을 찍으세요. 카드 코드는 숫자 값을 바꾸는 기본형이고, 자릿수가 굴러가는 연출은 원문에서 볼 수 있어요.",
+    "code": "const count = effect(\"Count\")(\"Slider\");\nMath.round(count.value).toString();",
+    "sourceUrl": "https://creativecow.net/rolling-number-counter-with-expressions-after-effects-tutorial/"
+  },
+  {
+    "name": "크기를 바꿔도 선 두께 유지",
+    "category": "Etc",
+    "description": "Stroke Width에 적용하면 도형 레이어의 Scale을 균일하게 바꿀 때 외곽선 두께를 유지할 수 있어요.",
+    "code": "const factor = Math.abs(transform.scale[0]) / 100;\nfactor > 0 ? value / factor : value;",
+    "sourceUrl": "https://aereference.com/expressions/maintain-stroke-width"
+  },
+  {
+    "name": "마커로 프리컴프 동작 호출",
+    "category": "Etc",
+    "description": "Time Remap에서 마커에 지정한 표정이나 동작을 재생해요. 프리컴프 안의 동작 마커와 상위 컴포지션의 호출 마커를 연결하는 방법은 원문을 참고하세요.",
+    "sourceUrl": "https://www.motionscript.com/design-guide/marker-sync.html"
+  },
+  {
+    "name": "구름이 가리면 렌즈 플레어 약해지기",
+    "category": "Etc",
+    "description": "Flare Brightness에 적용해 구름 레이어의 알파에 따라 플레어 밝기를 줄여요. Clouds 레이어와 같은 레이어의 Lens Flare 효과가 필요해요.",
+    "code": "const clouds = thisComp.layer(\"Clouds\");\nconst flarePoint = effect(\"Lens Flare\")(\"Flare Center\");\nconst cloudPoint = clouds.fromComp(toComp(flarePoint));\nconst alpha = clouds.sampleImage(cloudPoint, [2, 2], true, time)[3];\nvalue * (1 - clamp(alpha, 0, 1));",
+    "sourceUrl": "https://www.motionscript.com/design-guide/obscuration.html"
+  },
+  {
+    "name": "슬라이더로 흔들림 강도 조절",
+    "category": "Position",
+    "description": "같은 레이어에 Wiggle Amount라는 Slider Control을 추가하고 Position에 적용해요. 슬라이더를 0으로 두면 흔들림이 멈추고, 슬라이더에 키프레임을 찍으면 강도가 시간에 따라 바뀌어요.",
+    "code": "const frequency = 4;\nconst amount = effect(\"Wiggle Amount\")(\"Slider\").value;\nwiggle(frequency, amount);",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Control%20a%20wiggle%20with%20Slider%20controls"
+  },
+  {
+    "name": "화면 중앙을 원형으로 돌기",
+    "category": "Position",
+    "description": "부모가 없는 2D 레이어의 Position에 적용해요. 컴포지션 중앙을 기준으로 원을 돌며, radius는 반지름(px), period는 한 바퀴에 걸리는 시간(초)이에요.",
+    "code": "const radius = 50;\nconst period = 4;\nconst angle = (time - inPoint) / period * Math.PI * 2;\nconst x = thisComp.width / 2 + Math.sin(angle) * radius;\nconst y = thisComp.height / 2 - Math.cos(angle) * radius;\n[x, y];",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Layer%20revolves%20in%20a%20circle"
+  },
+  {
+    "name": "부모가 연결된 레이어의 실제 화면 위치 따라가기",
+    "category": "Position",
+    "description": "부모의 이동·회전·크기가 반영된 대상의 앵커 위치를 따라가요. 대상 이름을 Parented Layer로 맞추고, 따라가는 쪽은 부모가 없는 2D 레이어의 Position에 적용하세요.",
+    "code": "const target = thisComp.layer(\"Parented Layer\");\nconst point = target.toComp(target.anchorPoint);\n[point[0], point[1]];",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Get%20the%20true%20Position%20of%20a%20parented%20layer"
+  },
+  {
+    "name": "부모 움직임을 늦게 따라가기",
+    "category": "Position",
+    "description": "부모가 연결된 2D 자식의 Position에 적용해요. 기본 지연은 5프레임이에요. staggerByIndex를 true로 바꾸면 부모 아래에 배치한 자식의 순서에 따라 지연이 늘어나요.",
+    "code": "const delayFrames = 5;\nconst staggerByIndex = false;\nif (hasParent) {\n  const multiplier = staggerByIndex ? Math.max(0, index - parent.index) : 1;\n  const sampleTime = time - framesToTime(delayFrames * multiplier);\n  const delayedPoint = parent.toComp(thisProperty.valueAtTime(sampleTime), sampleTime);\n  parent.fromComp(delayedPoint);\n} else {\n  value;\n}",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Delay%20a%20layer's%20Position%20from%20its%20parent"
+  },
+  {
+    "name": "정해진 구간에만 흔들기",
+    "category": "Position",
+    "description": "Position에 적용해 컴포지션의 2초부터 4초 사이에만 흔들어요. 시작 즉시 흔들려면 startAt을 0으로, 시작 이후 계속 흔들려면 stopAt을 Infinity로 바꾸세요. 경계에서 강도를 부드럽게 바꾸려면 슬라이더 예제를 사용하세요.",
+    "code": "const startAt = 2;\nconst stopAt = 4;\ntime >= startAt && time < stopAt ? wiggle(3, 25) : value;",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Start%20or%20stop%20wiggle%20at%20specific%20time"
+  },
+  {
+    "name": "돋보기 위치에 맞춰 화면 볼록하게 만들기",
+    "category": "Etc",
+    "description": "2D 배경에 Bulge 효과를 추가하고 Bulge Center에 적용해요. Magnifier 레이어를 움직이면 그 앵커를 따라 왜곡의 중심도 움직여요.",
+    "code": "const lens = thisComp.layer(\"Magnifier\");\nconst screenPoint = lens.toComp(lens.anchorPoint);\nconst effectPoint = fromComp(screenPoint);\n[effectPoint[0], effectPoint[1]];",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Create%20a%20bulge%20between%20two%20layers"
+  },
+  {
+    "name": "마커마다 크기 탄성 주기",
+    "category": "Scale",
+    "description": "2D 레이어의 Scale에 적용하고 레이어 마커를 추가하세요. 각 마커에서 X축과 Y축이 반대 방향으로 변형되고 점차 원래 크기로 돌아와요.",
+    "code": "const frequency = 5;\nconst amplitude = 0.15;\nconst decay = 3;\nlet markerIndex = marker.numKeys ? marker.nearestKey(time).index : 0;\nif (markerIndex && marker.key(markerIndex).time > time) markerIndex--;\nif (markerIndex) {\n  const elapsed = time - marker.key(markerIndex).time;\n  const wave = Math.sin(elapsed * frequency * Math.PI * 2);\n  const factor = 1 + amplitude * wave * Math.exp(-decay * elapsed);\n  [value[0] * factor, value[1] / factor];\n} else {\n  value;\n}",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Animate%20scale%20at%20each%20layer%20marker"
+  },
+  {
+    "name": "카메라 초점을 대상에 고정",
+    "category": "Etc",
+    "description": "카메라에서 Depth of Field를 켜고 Focus Distance에 적용하세요. Target이라는 3D 레이어의 앵커가 카메라의 초점면에 놓이도록 초점 거리를 계산해요.",
+    "code": "const target = thisComp.layer(\"Target\");\nconst point = target.toWorld(target.anchorPoint);\nconst cameraOrigin = toWorld([0, 0, 0]);\nconst forward = normalize(toWorldVec([0, 0, 1]));\nMath.max(0, dot(point - cameraOrigin, forward));",
+    "sourceUrl": "https://helpx.adobe.com/after-effects/desktop/work-with-expressions/expression-examples/expression-examples.html#:~:text=Match%20camera%20focal%20plane%20to%20another%20layer"
   }
 ]

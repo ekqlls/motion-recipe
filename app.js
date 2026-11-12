@@ -35,6 +35,24 @@ function matchesCategory(recipe) {
   return categories.includes(selectedCategory);
 }
 
+function appendSourceLink(title, recipeName, url) {
+  const source = new URL(url).hostname;
+  const label = `${source} 참고 자료 (새 탭)`;
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.className = "tag";
+  link.textContent = "↗";
+  link.title = label;
+  link.setAttribute("aria-label", `${recipeName} — ${label}`);
+  title.append(" ", link);
+}
+
+function isHttpsUrl(url) {
+  return typeof url === "string" && URL.canParse(url) && new URL(url).protocol === "https:";
+}
+
 function render() {
   const query = search.value.toLowerCase();
   library.replaceChildren();
@@ -49,22 +67,28 @@ function render() {
     tag.textContent = r.category;
     const title = document.createElement("h2");
     title.textContent = r.name;
+    for (const url of [r.sourceUrl, ...(r.additionalSourceUrls ?? [])]) {
+      if (url) appendSourceLink(title, r.name, url);
+    }
 
     const desc = document.createElement("p");
     desc.textContent = r.description;
-    const code = document.createElement("pre");
-    code.textContent = r.code;
-    const copy = document.createElement("button");
-    copy.textContent = "코드 복사";
-    copy.onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(r.code);
-        copy.textContent = "복사 완료!";
-      } catch {
-        copy.textContent = "복사 실패";
-      }
-    };
-    card.append(tag, title, desc, code, copy);
+    card.append(tag, title, desc);
+    if (r.code) {
+      const code = document.createElement("pre");
+      code.textContent = r.code;
+      const copy = document.createElement("button");
+      copy.textContent = "코드 복사";
+      copy.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(r.code);
+          copy.textContent = "복사 완료!";
+        } catch {
+          copy.textContent = "복사 실패";
+        }
+      };
+      card.append(code, copy);
+    }
     library.appendChild(card);
   });
 }
@@ -75,9 +99,15 @@ async function loadRecipes() {
       throw new Error(`HTTP ${response.status}`);
     }
     const data = await response.json();
-    const fields = ["name", "category", "description", "code"];
+    const fields = ["name", "category", "description"];
     if (!Array.isArray(data) || !data.every(recipe =>
-      recipe && fields.every(field => typeof recipe[field] === "string")
+      recipe &&
+      fields.every(field => typeof recipe[field] === "string") &&
+      (recipe.code === undefined || typeof recipe.code === "string") &&
+      (recipe.sourceUrl === undefined || isHttpsUrl(recipe.sourceUrl)) &&
+      (recipe.additionalSourceUrls === undefined ||
+        (Array.isArray(recipe.additionalSourceUrls) && recipe.additionalSourceUrls.every(isHttpsUrl))) &&
+      (recipe.code || recipe.sourceUrl || recipe.additionalSourceUrls?.length)
     )) {
       throw new Error("Invalid expressions.json format");
     }
