@@ -1,34 +1,38 @@
 const search = document.getElementById("search");
 const filters = document.getElementById("filters");
 const library = document.getElementById("library");
-const defaultCategories = ["Position", "Rotation", "Loop"];
+const transformProperties = ["Position", "Scale", "Rotation", "Opacity"];
 let recipes = [];
-let category = "All";
+let selectedProperty = null;
 
-function setCategory(value) {
-  category = value;
-  render();
+function createFilters() {
+  for (const property of transformProperties) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = property;
+    button.setAttribute("aria-pressed", "false");
+    button.onclick = () => {
+      selectedProperty = selectedProperty === property ? null : property;
+      for (const filter of filters.children) {
+        const isActive = filter.textContent === selectedProperty;
+        filter.classList.toggle("active", isActive);
+        filter.setAttribute("aria-pressed", String(isActive));
+      }
+      render();
+    };
+    filters.appendChild(button);
+  }
 }
 
 function render() {
   const query = search.value.toLowerCase();
-  const categories = new Set(["All", ...defaultCategories, ...recipes.map(recipe => recipe.category)]);
-  filters.replaceChildren();
-  categories.forEach(c => {
-    const btn = document.createElement("button");
-    btn.textContent = c;
-    btn.className = category === c ? "active" : "";
-    btn.onclick = () => setCategory(c);
-    filters.appendChild(btn);
-  });
   library.replaceChildren();
   recipes.filter(r =>
-    (category === "All" || r.category === category) &&
+    (selectedProperty === null || r.category.split("·").some(property => property.trim() === selectedProperty)) &&
     (r.name + r.description + r.category).toLowerCase().includes(query)
   ).forEach(r => {
     const card = document.createElement("div");
     card.className = "card";
-
     const tag = document.createElement("div");
     tag.className = "tag";
     tag.textContent = r.category;
@@ -37,7 +41,6 @@ function render() {
 
     const desc = document.createElement("p");
     desc.textContent = r.description;
-
     const code = document.createElement("pre");
     code.textContent = r.code;
     const copy = document.createElement("button");
@@ -50,7 +53,6 @@ function render() {
         copy.textContent = "복사 실패";
       }
     };
-
     card.append(tag, title, desc, code, copy);
     library.appendChild(card);
   });
@@ -61,7 +63,6 @@ async function loadRecipes() {
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
-
     const data = await response.json();
     const fields = ["name", "category", "description", "code"];
     if (!Array.isArray(data) || !data.every(recipe =>
@@ -69,8 +70,8 @@ async function loadRecipes() {
     )) {
       throw new Error("Invalid expressions.json format");
     }
-
     recipes = data;
+    createFilters();
     search.disabled = false;
     render();
   } catch (error) {
