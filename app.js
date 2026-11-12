@@ -2,19 +2,20 @@ const search = document.getElementById("search");
 const filters = document.getElementById("filters");
 const library = document.getElementById("library");
 const transformProperties = ["Position", "Scale", "Rotation", "Opacity"];
+const filterCategories = [...transformProperties, "Etc"];
 let recipes = [];
-let selectedProperty = null;
+let selectedCategory = null;
 
 function createFilters() {
-  for (const property of transformProperties) {
+  for (const category of filterCategories) {
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = property;
+    button.textContent = category;
     button.setAttribute("aria-pressed", "false");
     button.onclick = () => {
-      selectedProperty = selectedProperty === property ? null : property;
+      selectedCategory = selectedCategory === category ? null : category;
       for (const filter of filters.children) {
-        const isActive = filter.textContent === selectedProperty;
+        const isActive = filter.textContent === selectedCategory;
         filter.classList.toggle("active", isActive);
         filter.setAttribute("aria-pressed", String(isActive));
       }
@@ -24,11 +25,21 @@ function createFilters() {
   }
 }
 
+function matchesCategory(recipe) {
+  if (selectedCategory === null) return true;
+
+  const categories = recipe.category.split("·").map(category => category.trim());
+  if (selectedCategory === "Etc") {
+    return !categories.some(category => transformProperties.includes(category));
+  }
+  return categories.includes(selectedCategory);
+}
+
 function render() {
   const query = search.value.toLowerCase();
   library.replaceChildren();
   recipes.filter(r =>
-    (selectedProperty === null || r.category.split("·").some(property => property.trim() === selectedProperty)) &&
+    matchesCategory(r) &&
     (r.name + r.description + r.category).toLowerCase().includes(query)
   ).forEach(r => {
     const card = document.createElement("div");
