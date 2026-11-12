@@ -53,6 +53,39 @@ function isHttpsUrl(url) {
   return typeof url === "string" && URL.canParse(url) && new URL(url).protocol === "https:";
 }
 
+function isGuide(guide) {
+  return guide &&
+    ["property", "preparation", "check"].every(field => typeof guide[field] === "string") &&
+    Array.isArray(guide.steps) && guide.steps.length > 0 &&
+    guide.steps.every(step => typeof step === "string");
+}
+
+function createGuide(guide) {
+  const details = document.createElement("details");
+  const summary = document.createElement("summary");
+  summary.textContent = "적용 방법";
+  details.append(summary);
+
+  for (const [label, value] of [["적용할 속성", guide.property], ["먼저 준비할 것", guide.preparation]]) {
+    const paragraph = document.createElement("p");
+    const heading = document.createElement("strong");
+    heading.textContent = label;
+    paragraph.append(heading, " · ", value);
+    details.append(paragraph);
+  }
+
+  const steps = document.createElement("ol");
+  for (const step of guide.steps) {
+    const item = document.createElement("li");
+    item.textContent = step;
+    steps.append(item);
+  }
+  const check = document.createElement("p");
+  check.textContent = guide.check;
+  details.append(steps, check);
+  return details;
+}
+
 function render() {
   const query = search.value.toLowerCase();
   library.replaceChildren();
@@ -74,6 +107,7 @@ function render() {
     const desc = document.createElement("p");
     desc.textContent = r.description;
     card.append(tag, title, desc);
+    if (r.guide) card.append(createGuide(r.guide));
     if (r.code) {
       const code = document.createElement("pre");
       code.textContent = r.code;
@@ -104,6 +138,7 @@ async function loadRecipes() {
       recipe &&
       fields.every(field => typeof recipe[field] === "string") &&
       (recipe.code === undefined || typeof recipe.code === "string") &&
+      (recipe.guide === undefined || isGuide(recipe.guide)) &&
       (recipe.sourceUrl === undefined || isHttpsUrl(recipe.sourceUrl)) &&
       (recipe.additionalSourceUrls === undefined ||
         (Array.isArray(recipe.additionalSourceUrls) && recipe.additionalSourceUrls.every(isHttpsUrl))) &&
