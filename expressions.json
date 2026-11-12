@@ -2,13 +2,13 @@
   {
     "name": "딱딱하게 까딱까딱",
     "category": "Rotation",
-    "description": "스탑모션처럼 각도가 전환되는 움직임",
-    "code": "freq = 2;\namp = 5;\nstep = Math.sin(time * freq * Math.PI * 2) >= 0 ? 1 : -1;\nvalue + step * amp;"
+    "description": "스탑모션·컷아웃처럼 기준 각도에서 좌우로 즉시 전환합니다. freq는 초당 왕복 횟수, amp는 회전 각도입니다. 앵커 포인트를 관절이나 회전축에 두세요.",
+    "code": "freq = 2;\namp = 5;\n\nstep = Math.sin(time * freq * Math.PI * 2) >= 0 ? 1 : -1;\nvalue + step * amp;"
   },
   {
     "name": "위아래로 둥둥",
     "category": "Position",
-    "description": "사인파를 이용한 반복적인 상하 이동",
+    "description": "2D Position에서 사인파를 이용한 반복적인 상하 이동입니다. 기존 사이트 샘플로, 문서의 Floating보다 느린 초당 0.5회 설정입니다.",
     "code": "freq = 0.5;\namp = 20;\nvalue + [0, Math.sin(time * freq * 2 * Math.PI) * amp];"
   },
   {
@@ -16,5 +16,71 @@
     "category": "Loop",
     "description": "기존 키프레임 애니메이션을 반복",
     "code": "loopOut(\"cycle\");"
+  },
+  {
+    "name": "좌우로 부드럽고 반복적인 흔들림 (Swing)",
+    "category": "Rotation",
+    "description": "진자처럼 좌우로 부드럽게 회전합니다. freq는 초당 반복 횟수, amp는 좌우 최대 회전 각도입니다.",
+    "code": "freq = 1;\namp = 8;\n\nvalue + Math.sin(time * freq * Math.PI * 2) * amp;"
+  },
+  {
+    "name": "위아래로 둥둥 움직이기 (Floating)",
+    "category": "Position",
+    "description": "2D Position에서 위아래로 부드럽게 부유합니다. 문서의 Floating은 초당 1회 설정이며, amp로 이동 거리(px)를 조절합니다.",
+    "code": "freq = 1;\namp = 20;\n\ny = Math.sin(time * freq * Math.PI * 2) * amp;\n[value[0], value[1] + y];"
+  },
+  {
+    "name": "불규칙하게 흔들기 (Wiggle)",
+    "category": "Position",
+    "description": "위치를 불규칙하게 흔들어 떨림이나 진동을 만듭니다. 첫 번째 인수는 초당 횟수, 두 번째는 흔들림 범위(px)입니다.",
+    "code": "wiggle(2, 20);"
+  },
+  {
+    "name": "두근두근 크기 변화 (Heartbeat)",
+    "category": "Scale",
+    "description": "2D Scale에서 심장박동처럼 크기가 반복해서 변합니다. freq는 초당 반복 횟수, amp는 크기 변화량입니다.",
+    "code": "freq = 1.5;\namp = 12;\n\npulse = Math.sin(time * freq * Math.PI * 2);\nvalue + [pulse * amp, pulse * amp];"
+  },
+  {
+    "name": "키프레임 뒤에 탄성 추가 (Bounce)",
+    "category": "Position · Scale · Rotation",
+    "description": "움직임을 만드는 키프레임이 있는 Position, Scale, Rotation 중 원하는 속성에 적용합니다. amp는 튕기는 강도, freq는 진동 횟수, decay는 감쇠 속도입니다.",
+    "code": "amp = 0.05;\nfreq = 4.0;\ndecay = 3.0;\n\nn = 0;\n\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n\n  if (key(n).time > time) {\n    n--;\n  }\n}\n\nif (n == 0) {\n  t = 0;\n} else {\n  t = time - key(n).time;\n}\n\nif (n > 0 && t < 1) {\n  v = velocityAtTime(key(n).time - thisComp.frameDuration / 10);\n  value + v * amp * Math.sin(freq * t * Math.PI * 2) / Math.exp(decay * t);\n} else {\n  value;\n}"
+  },
+  {
+    "name": "깜빡깜빡",
+    "category": "Opacity",
+    "description": "Opacity가 0%에서 100% 사이를 초당 약 1.59회 부드럽게 왕복하는 깜빡임입니다.",
+    "code": "Math.sin(time * 10) * 50 + 50;"
+  },
+  {
+    "name": "벌레 위글",
+    "category": "Position",
+    "description": "2D Position에 유기적인 좌우·상하 이동을 만듭니다. ampX와 ampY는 이동 거리, speedX와 speedY는 축별 반복 속도입니다.",
+    "code": "ampX = 20;\nampY = 15;\n\nspeedX = 0.5;\nspeedY = 0.7;\n\nseedRandom(index, true);\n\nphaseX = random(0, 2 * Math.PI);\nphaseY = random(0, 2 * Math.PI);\n\nx = value[0] + Math.sin(time * speedX * 2 * Math.PI + phaseX) * ampX;\ny = value[1] + Math.cos(time * speedY * 2 * Math.PI + phaseY) * ampY;\n\n[x, y];"
+  },
+  {
+    "name": "반동",
+    "category": "Position · Scale · Rotation",
+    "description": "움직임을 만드는 키프레임이 있는 Position, Scale, Rotation 중 원하는 속성에 적용합니다. 키프레임 직전 속도가 빠를수록 반동이 커지며, freq와 decay로 진동과 감쇠를 조절합니다.",
+    "code": "freq = 3;\ndecay = 5;\n\nn = 0;\n\nif (numKeys > 0) {\n  n = nearestKey(time).index;\n\n  if (key(n).time > time) {\n    n--;\n  }\n}\n\nif (n > 0) {\n  t = time - key(n).time;\n  amp = velocityAtTime(key(n).time - 0.001);\n  w = freq * Math.PI * 2;\n\n  value + amp * (Math.sin(t * w) / Math.exp(decay * t) / w);\n} else {\n  value;\n}"
+  },
+  {
+    "name": "벌레 속도 변형 (Position)",
+    "category": "Position",
+    "description": "같은 2D 레이어에 적용하는 벌레 모션 세트입니다. 이 코드는 Position에 붙여넣고 Scale·Rotation 카드의 코드도 해당 속성에 각각 적용하세요. ampX·ampY는 이동 거리, speedX·speedY는 축별 반복 속도입니다.",
+    "code": "ampX = 200;\nampY = 150;\n\nspeedX = 0.2;\nspeedY = 0.3;\n\nseedRandom(index, true);\n\nphaseX = random(0, 2 * Math.PI);\nphaseY = random(0, 2 * Math.PI);\n\nx = value[0] + Math.sin(time * speedX * 2 * Math.PI + phaseX) * ampX;\ny = value[1] + Math.cos(time * speedY * 2 * Math.PI + phaseY) * ampY;\n\n[x, y];"
+  },
+  {
+    "name": "벌레 속도 변형 (Scale)",
+    "category": "Scale",
+    "description": "같은 2D 레이어의 Position 속도에 따라 X축은 늘리고 Y축은 줄입니다. 이 코드는 Scale에 붙여넣고 Position·Rotation 코드도 각각 적용하세요. maxStretch는 최대 늘어나는 비율, maxSpeed는 그 비율에 도달하는 속도입니다.",
+    "code": "maxStretch = 120;\nmaxSpeed = 300;\n\nv = transform.position.velocity;\nspeed = length(v);\n\nstretch = linear(speed, 0, maxSpeed, 100, maxStretch);\nstretch = clamp(stretch, 100, maxStretch);\nshrink = 10000 / stretch;\n\n[\n  value[0] * stretch / 100,\n  value[1] * shrink / 100\n];"
+  },
+  {
+    "name": "벌레 속도 변형 (Rotation)",
+    "category": "Rotation",
+    "description": "같은 2D 레이어가 이동 방향을 바라보게 합니다. 이 코드는 Rotation에 붙여넣고 Position·Scale 코드도 각각 적용하세요. 소스가 오른쪽을 향할 때 진행 방향과 일치합니다.",
+    "code": "v = transform.position.velocity;\n\nif (length(v) > 0.001) {\n  radiansToDegrees(Math.atan2(v[1], v[0]));\n} else {\n  value;\n}"
   }
 ]
