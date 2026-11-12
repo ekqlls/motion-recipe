@@ -1,0 +1,20 @@
+[
+  {
+    "name": "딱딱하게 까딱까딱",
+    "category": "Rotation",
+    "description": "스탑모션처럼 각도가 전환되는 움직임",
+    "code": "freq = 2;\namp = 5;\nstep = Math.sin(time * freq * Math.PI * 2) >= 0 ? 1 : -1;\nvalue + step * amp;"
+  },
+  {
+    "name": "위아래로 둥둥",
+    "category": "Position",
+    "description": "사인파를 이용한 반복적인 상하 이동",
+    "code": "freq = 0.5;\namp = 20;\nvalue + [0, Math.sin(time * freq * 2 * Math.PI) * amp];"
+  },
+  {
+    "name": "무한 반복",
+    "category": "Loop",
+    "description": "기존 키프레임 애니메이션을 반복",
+    "code": "loopOut(\"cycle\");"
+  }
+]
