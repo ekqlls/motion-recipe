@@ -86,6 +86,41 @@ function createGuide(guide) {
   return details;
 }
 
+function appendCode(container, recipe, label = "코드 복사") {
+  if (!recipe.code) return;
+
+  const code = document.createElement("pre");
+  code.textContent = recipe.code;
+  const copy = document.createElement("button");
+  copy.type = "button";
+  copy.textContent = label;
+  copy.onclick = async () => {
+    try {
+      await navigator.clipboard.writeText(recipe.code);
+      copy.textContent = "복사 완료!";
+    } catch {
+      copy.textContent = "복사 실패";
+    }
+  };
+  container.append(code, copy);
+}
+
+function appendRelatedRecipes(card, recipe) {
+  if (!recipe.group) return;
+
+  for (const related of recipes.filter(item => item !== recipe && item.group === recipe.group)) {
+    const details = document.createElement("details");
+    const summary = document.createElement("summary");
+    summary.textContent = `같은 세트 · ${related.category}`;
+    const description = document.createElement("p");
+    description.textContent = related.description;
+    details.append(summary, description);
+    if (related.guide) details.append(createGuide(related.guide));
+    appendCode(details, related, `${related.category} 코드 복사`);
+    card.append(details);
+  }
+}
+
 function render() {
   const query = search.value.toLowerCase();
   library.replaceChildren();
@@ -108,21 +143,8 @@ function render() {
     desc.textContent = r.description;
     card.append(tag, title, desc);
     if (r.guide) card.append(createGuide(r.guide));
-    if (r.code) {
-      const code = document.createElement("pre");
-      code.textContent = r.code;
-      const copy = document.createElement("button");
-      copy.textContent = "코드 복사";
-      copy.onclick = async () => {
-        try {
-          await navigator.clipboard.writeText(r.code);
-          copy.textContent = "복사 완료!";
-        } catch {
-          copy.textContent = "복사 실패";
-        }
-      };
-      card.append(code, copy);
-    }
+    appendCode(card, r);
+    appendRelatedRecipes(card, r);
     library.appendChild(card);
   });
 }
@@ -139,6 +161,7 @@ async function loadRecipes() {
       fields.every(field => typeof recipe[field] === "string") &&
       (recipe.code === undefined || typeof recipe.code === "string") &&
       (recipe.guide === undefined || isGuide(recipe.guide)) &&
+      (recipe.group === undefined || typeof recipe.group === "string") &&
       (recipe.sourceUrl === undefined || isHttpsUrl(recipe.sourceUrl)) &&
       (recipe.additionalSourceUrls === undefined ||
         (Array.isArray(recipe.additionalSourceUrls) && recipe.additionalSourceUrls.every(isHttpsUrl))) &&

@@ -170,7 +170,8 @@
   {
     "name": "벌레 속도 변형 (Position)",
     "category": "Position",
-    "description": "같은 2D 레이어에 적용하는 벌레 모션 세트입니다. 이 코드는 Position에 붙여넣고 Scale·Rotation 카드의 코드도 해당 속성에 각각 적용하세요. ampX·ampY는 이동 거리, speedX·speedY는 축별 반복 속도입니다.",
+    "group": "insect-motion",
+    "description": "2D 레이어를 곡선 경로로 움직여요. Position만 적용해도 움직이며, 크기 변화나 진행 방향 회전이 필요할 때 같은 레이어에 세트의 다른 코드를 추가하세요.",
     "code": "ampX = 200;\nampY = 150;\n\nspeedX = 0.2;\nspeedY = 0.3;\n\nseedRandom(index, true);\n\nphaseX = random(0, 2 * Math.PI);\nphaseY = random(0, 2 * Math.PI);\n\nx = value[0] + Math.sin(time * speedX * 2 * Math.PI + phaseX) * ampX;\ny = value[1] + Math.cos(time * speedY * 2 * Math.PI + phaseY) * ampY;\n\n[x, y];",
     "guide": {
       "property": "벌레 그래픽의 2D Position",
@@ -185,7 +186,8 @@
   {
     "name": "벌레 속도 변형 (Scale)",
     "category": "Scale",
-    "description": "같은 2D 레이어의 Position 속도에 따라 X축은 늘리고 Y축은 줄입니다. 이 코드는 Scale에 붙여넣고 Position·Rotation 코드도 각각 적용하세요. maxStretch는 최대 늘어나는 비율, maxSpeed는 그 비율에 도달하는 속도입니다.",
+    "group": "insect-motion",
+    "description": "같은 2D 레이어가 빠르게 움직일수록 가로로 늘고 세로로 줄어요. Position 움직임이 필요해요. 직접 찍은 Position 키프레임이나 아래 ‘같은 세트 · Position’ 코드 중 하나를 사용하세요. Rotation은 선택이에요.",
     "code": "maxStretch = 120;\nmaxSpeed = 300;\n\nv = transform.position.velocity;\nspeed = length(v);\n\nstretch = linear(speed, 0, maxSpeed, 100, maxStretch);\nstretch = clamp(stretch, 100, maxStretch);\nshrink = 10000 / stretch;\n\n[\n  value[0] * stretch / 100,\n  value[1] * shrink / 100\n];",
     "guide": {
       "property": "벌레 그래픽의 2D Scale",
@@ -200,7 +202,8 @@
   {
     "name": "벌레 속도 변형 (Rotation)",
     "category": "Rotation",
-    "description": "같은 2D 레이어가 이동 방향을 바라보게 합니다. 이 코드는 Rotation에 붙여넣고 Position·Scale 코드도 각각 적용하세요. 소스가 오른쪽을 향할 때 진행 방향과 일치합니다.",
+    "group": "insect-motion",
+    "description": "같은 2D 레이어가 이동 방향을 바라보게 해요. 직접 찍은 Position 키프레임이나 아래 ‘같은 세트 · Position’ 코드 중 하나로 움직임을 만드세요. Scale은 선택이며, 그래픽의 기본 방향은 오른쪽으로 맞추세요.",
     "code": "v = transform.position.velocity;\n\nif (length(v) > 0.001) {\n  radiansToDegrees(Math.atan2(v[1], v[0]));\n} else {\n  value;\n}",
     "guide": {
       "property": "벌레 그래픽의 2D Rotation",
