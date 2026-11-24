@@ -673,4 +673,42 @@
       "check": "대상이 깊이 방향으로 움직일 때 Focus Distance 값이 함께 변해요."
     }
   }
+,
+  {
+    "name": "외곽선 일렁임 (Organic Wave)",
+    "category": "Effect",
+    "group": "organic-wave",
+    "description": "이미지의 외곽선이 물결처럼 부드럽게 일렁이는 모션입니다. speed는 왜곡이 변화하는 속도입니다.",
+    "code": "speed = 90;\n\ntime * speed;",
+    "guide": {
+      "property": "Turbulent Displace > Evolution",
+      "preparation": "이미지 레이어에 Turbulent Displace 효과를 적용하세요.",
+      "steps": [
+        "Displacement: Turbulent Smoother",
+        "Amount: 12",
+        "Size: 100",
+        "Complexity: 1.0",
+        "Pinning: Pin None",
+        "Evolution 스톱워치를 Alt+클릭하고 코드를 붙여넣으세요."
+      ],
+      "check": "이미지의 외곽선이 지속적으로 부드럽게 일렁이면 정상입니다."
+    }
+  },
+  {
+    "name": "외곽선 꿀렁임 (Organic Wave Amount)",
+    "category": "Effect",
+    "group": "organic-wave",
+    "description": "왜곡 강도가 주기적으로 증가하고 감소하는 모션입니다. base는 기본 왜곡 강도, amp는 변화 폭, freq는 초당 반복 횟수입니다. Evolution 코드와 함께 사용하면 더욱 유기적인 움직임을 구현할 수 있습니다.",
+    "code": "base = 12;\namp = 5;\nfreq = 0.6;\n\nbase + Math.sin(time * freq * Math.PI * 2) * amp;",
+    "guide": {
+      "property": "Turbulent Displace > Amount",
+      "preparation": "이미지 레이어에 Turbulent Displace 효과를 적용하세요.",
+      "steps": [
+        "Amount 스톱워치를 Alt+클릭하고 코드를 붙여넣으세요.",
+        "base와 amp로 왜곡 강도를 조절하세요.",
+        "freq로 꿀렁임의 반복 속도를 조절하세요."
+      ],
+      "check": "왜곡 강도가 주기적으로 강해졌다 약해지면 정상입니다."
+    }
+  }
 ]
