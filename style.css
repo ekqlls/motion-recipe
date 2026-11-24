@@ -35,3 +35,6 @@ pre {
   background: #111218; border-radius: 8px;
   line-height: 1.6;
 }
+.code-property { color: #d5ceff; font-size: 14px; line-height: 1.6; }
+.linked-code { border-top: 1px solid #343540; margin-top: 22px; padding-top: 12px; }
+.card p, .card li { overflow-wrap: anywhere; line-height: 1.6; }

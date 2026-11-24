@@ -87,6 +87,10 @@ function createGuide(guide) {
 }
 
 function appendCode(container, recipe, label = "코드 복사") {
+  const property = document.createElement("p");
+  property.className = "code-property";
+  property.textContent = `적용 속성 · ${recipe.guide?.property ?? recipe.category} · ${recipe.requirement ?? "필수"}`;
+  container.append(property);
   if (!recipe.code) return;
 
   const code = document.createElement("pre");
@@ -94,6 +98,7 @@ function appendCode(container, recipe, label = "코드 복사") {
   const copy = document.createElement("button");
   copy.type = "button";
   copy.textContent = label;
+  copy.setAttribute("aria-label", `${recipe.name} — ${label}`);
   copy.onclick = async () => {
     try {
       await navigator.clipboard.writeText(recipe.code);
@@ -105,16 +110,40 @@ function appendCode(container, recipe, label = "코드 복사") {
   container.append(code, copy);
 }
 
+function appendMetadata(container, recipe) {
+  for (const [label, values, fallback] of [
+    ["필수 효과", recipe.requiredEffects, "없음"],
+    ["권장 설정", recipe.recommendedSettings, "별도 권장값 없음 · 적용 방법 참고"]
+  ]) {
+    const paragraph = document.createElement("p");
+    const heading = document.createElement("strong");
+    heading.textContent = label;
+    paragraph.append(heading, " · ", values?.length ? values.join(" / ") : fallback);
+    container.append(paragraph);
+  }
+}
+
+function cardMembers(recipe) {
+  return recipe.cardGroup ? recipes.filter(item => item.cardGroup === recipe.cardGroup) : [recipe];
+}
+
+function matchesQuery(recipe, query) {
+  return [recipe.name, recipe.description, recipe.category, recipe.guide?.property,
+    ...(recipe.requiredEffects ?? []), ...(recipe.recommendedSettings ?? [])]
+    .join(" ").toLowerCase().includes(query);
+}
+
 function appendRelatedRecipes(card, recipe) {
   if (!recipe.group) return;
 
   for (const related of recipes.filter(item => item !== recipe && item.group === recipe.group)) {
     const details = document.createElement("details");
     const summary = document.createElement("summary");
-    summary.textContent = `같은 세트 · ${related.category}`;
+    summary.textContent = `같은 세트 · ${related.category} · ${related.requirement ?? "필수"}`;
     const description = document.createElement("p");
     description.textContent = related.description;
     details.append(summary, description);
+    appendMetadata(details, related);
     if (related.guide) details.append(createGuide(related.guide));
     appendCode(details, related, `${related.category} 코드 복사`);
     card.append(details);
@@ -124,9 +153,9 @@ function appendRelatedRecipes(card, recipe) {
 function render() {
   const query = search.value.toLowerCase();
   library.replaceChildren();
-  recipes.filter(r =>
-    matchesCategory(r) &&
-    (r.name + r.description + r.category).toLowerCase().includes(query)
+  recipes.filter((r, index) =>
+    (!r.cardGroup || recipes.findIndex(item => item.cardGroup === r.cardGroup) === index) &&
+    cardMembers(r).some(item => matchesCategory(item) && matchesQuery(item, query))
   ).forEach(r => {
     const card = document.createElement("div");
     card.className = "card";
@@ -142,11 +171,33 @@ function render() {
     const desc = document.createElement("p");
     desc.textContent = r.description;
     card.append(tag, title, desc);
+    appendMetadata(card, r);
     if (r.guide) card.append(createGuide(r.guide));
-    appendCode(card, r);
-    appendRelatedRecipes(card, r);
+    appendCode(card, r, r.copyLabel ?? "코드 복사");
+    if (r.cardGroup) {
+      for (const related of cardMembers(r).filter(item => item !== r)) {
+        const section = document.createElement("section");
+        section.className = "linked-code";
+        const heading = document.createElement("h3");
+        heading.textContent = `${related.name} · ${related.requirement ?? "필수"}`;
+        const description = document.createElement("p");
+        description.textContent = related.description;
+        section.append(heading, description);
+        if (related.guide) section.append(createGuide(related.guide));
+        appendCode(section, related, related.copyLabel ?? "코드 복사");
+        card.append(section);
+      }
+    } else {
+      appendRelatedRecipes(card, r);
+    }
     library.appendChild(card);
   });
+  if (!library.children.length) {
+    const empty = document.createElement("p");
+    empty.setAttribute("role", "status");
+    empty.textContent = "검색 조건에 맞는 레시피가 없습니다.";
+    library.append(empty);
+  }
 }
 async function loadRecipes() {
   try {
@@ -162,6 +213,11 @@ async function loadRecipes() {
       (recipe.code === undefined || typeof recipe.code === "string") &&
       (recipe.guide === undefined || isGuide(recipe.guide)) &&
       (recipe.group === undefined || typeof recipe.group === "string") &&
+      (recipe.cardGroup === undefined || typeof recipe.cardGroup === "string") &&
+      (recipe.copyLabel === undefined || typeof recipe.copyLabel === "string") &&
+      (recipe.requirement === undefined || ["필수", "선택"].includes(recipe.requirement)) &&
+      ["requiredEffects", "recommendedSettings"].every(field => recipe[field] === undefined ||
+        (Array.isArray(recipe[field]) && recipe[field].every(value => typeof value === "string"))) &&
       (recipe.sourceUrl === undefined || isHttpsUrl(recipe.sourceUrl)) &&
       (recipe.additionalSourceUrls === undefined ||
         (Array.isArray(recipe.additionalSourceUrls) && recipe.additionalSourceUrls.every(isHttpsUrl))) &&
