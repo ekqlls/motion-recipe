@@ -1,7 +1,7 @@
 const search = document.getElementById("search");
 const filters = document.getElementById("filters");
 const library = document.getElementById("library");
-const transformProperties = ["Position", "Scale", "Rotation", "Opacity"];
+const transformProperties = ["Position", "Scale", "Rotation", "Opacity", "Effect"];
 const filterCategories = [...transformProperties, "Etc"];
 let recipes = [];
 let selectedCategory = null;
@@ -150,7 +150,7 @@ function render() {
 }
 async function loadRecipes() {
   try {
-    const response = await fetch('./expressions.json');
+    const response = await fetch('./expressions.json', { cache: 'no-cache' });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
